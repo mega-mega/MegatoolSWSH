@@ -1,0 +1,1 @@
+# Megatool for SWSH
