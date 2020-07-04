@@ -1,15 +1,13 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-class SettingScreen extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>かべかけ!</Text>
-      </View>
-    );
-  }
-}
+export const SettingScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text>かべかけ!</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
