@@ -7,14 +7,6 @@ export const PokeEditScreen = () => {
   return (
     <View style={styles.container}>
       <Text>pokeedit !</Text>
-      {/* <Autocomplete
-        data={names}
-        renderItem={({ item, i }) => (
-          <TouchableOpacity onPress={() => {}}>
-            <Text>{item}</Text>
-          </TouchableOpacity>
-        )}
-      /> */}
     </View>
   );
 };

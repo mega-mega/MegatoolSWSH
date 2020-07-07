@@ -5,14 +5,27 @@ import CircleButton from "../elements/CircleButton";
 import palet from "../../common/palet.json";
 import { createStackNavigator } from "@react-navigation/stack";
 import PokeEditScreen from "./PokeEditScreen";
+import PokeListItem from "../components/PokeListItem";
 
 const Stack = createStackNavigator();
-
+const headerOption = {
+  headerStyle: {
+    backgroundColor: palet.main,
+  },
+  headerTintColor: palet.back,
+  headerTitleStyle: {
+    // fontWeight: "bold",
+  },
+};
 export const PokeListScreen = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="一覧" component={ListView} />
-      <Stack.Screen name="追加" component={PokeEditScreen} />
+      <Stack.Screen name="一覧" component={ListView} options={headerOption} />
+      <Stack.Screen
+        name="追加"
+        component={PokeEditScreen}
+        options={headerOption}
+      />
     </Stack.Navigator>
   );
 };
@@ -21,14 +34,8 @@ const ListView = (props: any) => {
   const { navigation } = props;
   return (
     <View style={styles.container}>
-      {/* <Header
-        centerComponent={{
-          text: "ポケモン管理",
-          style: { color: palet.back, fontSize: 16 },
-        }}
-        backgroundColor={palet.main}
-      /> */}
-      <Text style={{ flex: 1 }}>pokelist !</Text>
+      <PokeListItem />
+      <PokeListItem />
       <CircleButton
         onPress={() => {
           navigation.navigate("追加");

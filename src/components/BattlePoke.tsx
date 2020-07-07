@@ -3,6 +3,9 @@ import { StyleSheet, Image, View, Text, SafeAreaView } from "react-native";
 import palet from "../../common/palet.json";
 const ball = require("../../assets/icon.png");
 
+/**
+ * パーティ選択で表示される1つ分のポケモンカード
+ */
 export const BattlePoke = () => {
   return (
     <View style={styles.container}>
