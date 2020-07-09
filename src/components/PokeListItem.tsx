@@ -32,7 +32,7 @@ export const PokeListItem = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { height: 150, flexDirection: "row", marginBottom: 2 },
+  container: { height: 130, flexDirection: "row", marginBottom: 2 },
   pokeInfoArea: {
     width: "50%",
     height: "100%",
