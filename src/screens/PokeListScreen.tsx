@@ -36,6 +36,10 @@ const ListView = (props: any) => {
     <View style={styles.container}>
       <PokeListItem />
       <PokeListItem />
+      <PokeListItem />
+      <PokeListItem />
+      <PokeListItem />
+      <PokeListItem />
       <CircleButton
         onPress={() => {
           navigation.navigate("追加");

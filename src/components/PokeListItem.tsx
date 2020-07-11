@@ -22,17 +22,39 @@ export const PokeListItem = () => {
               resizeMode={"contain"}
             />
           </View>
+          <Text style={styles.pokeName}>ウーラオス</Text>
         </View>
         {/* 特性　アイテム、NN、種族名 */}
-        <View style={styles.pokeInfo}></View>
+
+        <View style={styles.pokeInfo}>
+          <Text style={styles.pokeNN}>NN: ASようき</Text>
+          <Text style={styles.pokeNN}>特性: さめはだ</Text>
+          <Text style={styles.pokeNN}>持ち物: いのちのたま</Text>
+        </View>
       </View>
-      <View style={styles.wazaArea}></View>
+      <View style={styles.wazaArea}>
+        <View style={styles.wazaLeft}>
+          <Text style={styles.waza}>ハイドロポンプ</Text>
+          <Text style={styles.waza}>れいとうビーム</Text>
+          <Text style={styles.waza}>ハイドロポンプ</Text>
+          <Text style={styles.waza}>れいとうビーム</Text>
+        </View>
+        <View style={styles.wazaLeft}>
+          <Text style={styles.waza}>みがわり</Text>
+          <Text style={styles.waza}>あくのはどう</Text>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { height: 130, flexDirection: "row", marginBottom: 2 },
+  container: {
+    height: "12%",
+    width: "100%",
+    flexDirection: "row",
+    marginBottom: 2,
+  },
   pokeInfoArea: {
     width: "50%",
     height: "100%",
@@ -44,17 +66,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   image: {
-    width: "25%",
+    width: "20%",
     height: "80%",
     marginTop: "auto",
     marginBottom: "auto",
-    marginLeft: 3,
+    marginLeft: 1,
   },
   typeArea: {
     height: "80%%",
-    width: "20%",
+    width: "10%",
     marginTop: "auto",
     marginBottom: "auto",
+    marginLeft: 1,
   },
   typeImage: {
     width: "80%",
@@ -73,6 +96,44 @@ const styles = StyleSheet.create({
     width: "50%",
     height: "100%",
     backgroundColor: "gray",
+    flexDirection: "row",
+  },
+  wazaRight: {
+    width: "50%",
+    height: "100%",
+    margin: 2,
+    backgroundColor: "white",
+  },
+  wazaLeft: {
+    width: "50%",
+    height: "100%",
+    margin: 2,
+    backgroundColor: "green",
+  },
+  waza: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 11,
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: 5,
+  },
+  pokeName: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 14,
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  pokeNN: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 12,
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: 5,
   },
 });
 export default PokeListItem;
