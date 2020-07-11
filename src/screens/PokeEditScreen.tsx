@@ -10,8 +10,15 @@ import {
 
 import StatusTable from "../components/StatusTable";
 import { Banner } from "../elements/Banner";
+import { pokeType } from "../../common/pokeType";
 
-export const PokeEditScreen = () => {
+interface Props {
+  pokeData?: pokeType;
+}
+
+export const PokeEditScreen = (props: Props) => {
+  const [poke, setPoke] = useState(props.pokeData);
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
