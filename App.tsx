@@ -26,6 +26,7 @@ export default function App() {
           }}
         >
           <Tab.Screen name="対戦" component={PartyChoiceScreen} />
+
           <Tab.Screen name="管理" component={PokeListScreen} />
           <Tab.Screen name="設定" component={SettingScreen} />
         </Tab.Navigator>

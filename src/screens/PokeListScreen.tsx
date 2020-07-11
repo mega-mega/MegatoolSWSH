@@ -1,13 +1,43 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { Header } from "react-native-elements";
+import { Icon } from "react-native-elements";
 import CircleButton from "../elements/CircleButton";
 import palet from "../../common/palet.json";
 import { createStackNavigator } from "@react-navigation/stack";
 import PokeEditScreen from "./PokeEditScreen";
 import PokeListItem from "../components/PokeListItem";
-
+import { pokeType } from "../../common/pokeType";
 const Stack = createStackNavigator();
+
+interface Props {
+  pokeData?: pokeType;
+}
+export const PokeListScreen = (props: Props) => {
+  const clickSave = () => {};
+  return (
+    <Stack.Navigator screenOptions={headerOption}>
+      <Stack.Screen name="一覧" component={ListView} />
+      <Stack.Screen
+        name="追加"
+        options={{
+          headerRight: (props) => {
+            return (
+              <Icon
+                name="save"
+                type="font-awesome"
+                color={palet.back}
+                style={{ marginRight: 20 }}
+                onPress={clickSave}
+              />
+            );
+          },
+        }}
+      >
+        {(props) => <PokeEditScreen />}
+      </Stack.Screen>
+    </Stack.Navigator>
+  );
+};
 const headerOption = {
   headerStyle: {
     backgroundColor: palet.main,
@@ -16,18 +46,6 @@ const headerOption = {
   headerTitleStyle: {
     // fontWeight: "bold",
   },
-};
-export const PokeListScreen = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="一覧" component={ListView} options={headerOption} />
-      <Stack.Screen
-        name="追加"
-        component={PokeEditScreen}
-        options={headerOption}
-      />
-    </Stack.Navigator>
-  );
 };
 
 const ListView = (props: any) => {
