@@ -38,7 +38,21 @@ export const PokeEditScreen = (props: Props) => {
     createAt: new Date(),
     updateAt: new Date(),
   };
-
+  // 技入力エリア1つ
+  const wazaInput = (waza: string, index: number) => {
+    return (
+      <View>
+        <Text>{waza}</Text>
+        <TextInput
+          style={styles.abilityInput}
+          onChangeText={(text) => {
+            pokeData.waza[index] = text;
+            props.onChangePokemon(pokeData);
+          }}
+        />
+      </View>
+    );
+  };
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
@@ -87,46 +101,18 @@ export const PokeEditScreen = (props: Props) => {
         {/* 技エリア */}
         <View style={{ width: "100%", flexDirection: "row" }}>
           <View style={{ width: "50%", paddingRight: 5 }}>
-            <Text>わざ1: </Text>
-            <TextInput
-              style={styles.abilityInput}
-              onChangeText={(text) => {
-                pokeData.waza[0] = text;
-                props.onChangePokemon(pokeData);
-              }}
-            />
+            {wazaInput("わざ1: ", 0)}
           </View>
           <View style={{ width: "50%", paddingLeft: 5 }}>
-            <Text>わざ2: </Text>
-            <TextInput
-              style={styles.abilityInput}
-              onChangeText={(text) => {
-                pokeData.waza[1] = text;
-                props.onChangePokemon(pokeData);
-              }}
-            />
+            {wazaInput("わざ2: ", 1)}
           </View>
         </View>
         <View style={{ width: "100%", flexDirection: "row" }}>
           <View style={{ width: "50%", paddingRight: 5 }}>
-            <Text>わざ3: </Text>
-            <TextInput
-              style={styles.abilityInput}
-              onChangeText={(text) => {
-                pokeData.waza[2] = text;
-                props.onChangePokemon(pokeData);
-              }}
-            />
+            {wazaInput("わざ3: ", 2)}
           </View>
           <View style={{ width: "50%", paddingLeft: 5 }}>
-            <Text>わざ4: </Text>
-            <TextInput
-              style={styles.abilityInput}
-              onChangeText={(text) => {
-                pokeData.waza[3] = text;
-                props.onChangePokemon(pokeData);
-              }}
-            />
+            {wazaInput("わざ4: ", 3)}
           </View>
         </View>
         <StatusTable />
