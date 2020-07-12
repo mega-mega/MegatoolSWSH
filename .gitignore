@@ -14,3 +14,6 @@ web-build/
 
 # yarn
 yarn-error.log
+
+# secrets
+env.json
