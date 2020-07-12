@@ -7,7 +7,7 @@ import {
   TableWrapper,
   Cell,
   Col,
-} from "react-native-table-component";
+} from "react-native-table-component"; // FIXME: エラーけしたい。。
 import { TextInput } from "react-native-gesture-handler";
 
 export const StatusTable = () => {
@@ -17,7 +17,7 @@ export const StatusTable = () => {
   const data = {
     tableHead: ["", "HP", "攻撃", "防御", "特攻", "特防", "素早"],
     tableData: [
-      ["種族", element(102, console.log(1)), "130", "80", "80", "95", "102"],
+      ["種族", element(102, null), "130", "80", "80", "95", "102"],
       ["個体", "102", "130", "80", "80", "95", "102"],
       ["努力", "102", "130", "80", "80", "95", "102"],
       ["実値", "102", "130", "80", "80", "95", "102"],

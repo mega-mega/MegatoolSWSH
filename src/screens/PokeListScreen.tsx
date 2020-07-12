@@ -1,29 +1,39 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, AsyncStorage } from "react-native";
 import { Icon } from "react-native-elements";
 import CircleButton from "../elements/CircleButton";
 import palet from "../../common/palet.json";
 import { createStackNavigator } from "@react-navigation/stack";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
-
 import PokeEditScreen from "./PokeEditScreen";
 import PokeListItem from "../components/PokeListItem";
 import { PokeType } from "../../common/PokeType";
 import AppState from "../states/AppState";
 import State from "../State";
-import {
-  createUpdateMessageAction,
-  createUpdatePokeAction,
-} from "../actions/AppAction";
+import db, { login } from "../repository/FireStore";
 const Stack = createStackNavigator();
 
 interface Events {}
 
 interface Props extends Events, AppState {}
 export const PokeListScreen = (props: Props) => {
-  const clickSave = () => {
-    // TODO: props.pokeDataで保存処理書く
+  const clickSave = async () => {
+    // TODO: バリデーション処理欲しい
+    const uid = await AsyncStorage.getItem("uid");
+    const data = props.pokeData!;
+    data.updateAt = new Date();
+    (await db)
+      .collection("userData")
+      .doc(uid!)
+      .collection("pokeCollection")
+      .doc(data.number.toString())
+      .set(data)
+      .then(() => {
+        console.log("save");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <Stack.Navigator screenOptions={headerOption}>

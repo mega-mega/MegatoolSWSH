@@ -21,6 +21,7 @@ const initState: AppState = {
     ability: "さめはだ",
     pokesonality: "ようき",
     item: "こだわりスカーフ",
+    waza: ["", "", "", ""],
     status: {
       bs: [0, 0, 0, 0, 0, 0],
       iv: [0, 0, 0, 0, 0, 0],
@@ -34,7 +35,6 @@ const initState: AppState = {
  * Reducer 関数
  *
  */
-
 const appReducer: Reducer<AppState> = (
   state: AppState = initState,
   action: Action

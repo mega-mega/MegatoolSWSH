@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, AsyncStorage } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { createUpdateMessageAction } from "../actions/AppAction";
@@ -11,6 +11,7 @@ import PartyChoiceScreen from "./PartyChoiceScreen";
 import SettingScreen from "./SettingScreen";
 import PokeListScreen from "./PokeListScreen";
 import palet from "../../common/palet.json";
+import { login } from "../repository/FireStore";
 const Tab = createBottomTabNavigator();
 
 interface Events {
@@ -19,6 +20,7 @@ interface Events {
 
 interface Props extends Events, AppState {}
 export const Home = (props: Props) => {
+  login();
   return (
     <View style={styles.container}>
       <NavigationContainer>
