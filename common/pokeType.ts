@@ -1,4 +1,4 @@
-export interface pokeType {
+export interface PokeType {
   number: number;
   name: string;
   nn: string;
