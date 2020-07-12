@@ -4,23 +4,34 @@ import { Icon } from "react-native-elements";
 import CircleButton from "../elements/CircleButton";
 import palet from "../../common/palet.json";
 import { createStackNavigator } from "@react-navigation/stack";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+
 import PokeEditScreen from "./PokeEditScreen";
 import PokeListItem from "../components/PokeListItem";
-import { pokeType } from "../../common/pokeType";
+import { PokeType } from "../../common/PokeType";
+import AppState from "../states/AppState";
+import State from "../State";
+import {
+  createUpdateMessageAction,
+  createUpdatePokeAction,
+} from "../actions/AppAction";
 const Stack = createStackNavigator();
 
-interface Props {
-  pokeData?: pokeType;
-}
+interface Events {}
+
+interface Props extends Events, AppState {}
 export const PokeListScreen = (props: Props) => {
-  const clickSave = () => {};
+  const clickSave = () => {
+    // TODO: props.pokeDataで保存処理書く
+  };
   return (
     <Stack.Navigator screenOptions={headerOption}>
       <Stack.Screen name="一覧" component={ListView} />
       <Stack.Screen
         name="追加"
         options={{
-          headerRight: (props) => {
+          headerRight: () => {
             return (
               <Icon
                 name="save"
@@ -33,7 +44,7 @@ export const PokeListScreen = (props: Props) => {
           },
         }}
       >
-        {(props) => <PokeEditScreen />}
+        {() => <PokeEditScreen />}
       </Stack.Screen>
     </Stack.Navigator>
   );
@@ -75,5 +86,11 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
+const mapStateToProps = (state: State): AppState => {
+  return {
+    message: state.app.message,
+    pokeData: state.app.pokeData,
+  };
+};
 
-export default PokeListScreen;
+export default connect(mapStateToProps, undefined)(PokeListScreen);
