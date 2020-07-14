@@ -54,6 +54,7 @@ export const PokeEditScreen = (props: Props) => {
       </View>
     );
   };
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
