@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Image, View, Text, SafeAreaView } from "react-native";
 import palet from "../../common/palet.json";
+// tslint:disable-next-line: no-var-requires
 const ball = require("../../assets/icon.png");
 
 /**

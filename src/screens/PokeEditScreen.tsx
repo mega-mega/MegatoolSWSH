@@ -46,13 +46,15 @@ export const PokeEditScreen = (props: Props) => {
         <TextInput
           style={styles.abilityInput}
           onChangeText={(text) => {
-            pokeData.waza[index] = text;
+            pokeData.waza![index] = text;
+
             props.onChangePokemon(pokeData);
           }}
         />
       </View>
     );
   };
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
@@ -166,7 +168,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: State): AppState => {
   return {
-    message: state.app.message,
     pokeData: state.app.pokeData,
   };
 };

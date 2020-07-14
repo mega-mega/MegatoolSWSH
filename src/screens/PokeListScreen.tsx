@@ -26,7 +26,7 @@ export const PokeListScreen = (props: Props) => {
       .collection("userData")
       .doc(uid!)
       .collection("pokeCollection")
-      .doc(data.number.toString())
+      .doc(data.number!.toString())
       .set(data)
       .then(() => {
         console.log("save");
@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state: State): AppState => {
   return {
-    message: state.app.message,
     pokeData: state.app.pokeData,
   };
 };
