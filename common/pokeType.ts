@@ -12,6 +12,7 @@ export interface PokeType {
     ev: number[];
     st: number[];
   };
+
   memo?: string;
   createAt?: Date;
   updateAt?: Date;
