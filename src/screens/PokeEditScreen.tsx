@@ -11,7 +11,6 @@ import { createUpdatePokeAction } from "../actions/AppAction";
 
 interface Events {
   // ポケモンリストと1個体分のイベント作る
-
   onChangePokemon: (pokeData: PokeType) => void;
 }
 
@@ -46,7 +45,7 @@ export const PokeEditScreen = (props: Props) => {
         <TextInput
           style={styles.abilityInput}
           onChangeText={(text) => {
-            pokeData.waza[index] = text;
+            pokeData.waza![index] = text;
             props.onChangePokemon(pokeData);
           }}
         />
@@ -166,7 +165,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: State): AppState => {
   return {
-    message: state.app.message,
     pokeData: state.app.pokeData,
   };
 };

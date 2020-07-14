@@ -1,34 +1,14 @@
 import clone from "clone";
 import { Action, Reducer } from "redux";
 
-import {
-  UpdateMessageAction,
-  UPDATE_MESSAGE,
-  UpdatePokeAction,
-  UPDATE_POKE,
-} from "../actions/AppAction";
+import { UpdatePokeAction, UPDATE_POKE } from "../actions/AppAction";
 import AppState from "../states/AppState";
 
 /**
  * Stateの初期値
  */
 const initState: AppState = {
-  message: "",
-  pokeData: {
-    number: 0,
-    name: "ガブリアス",
-    nn: "",
-    ability: "さめはだ",
-    pokesonality: "ようき",
-    item: "こだわりスカーフ",
-    waza: ["", "", "", ""],
-    status: {
-      bs: [0, 0, 0, 0, 0, 0],
-      iv: [0, 0, 0, 0, 0, 0],
-      ev: [0, 0, 0, 0, 0, 0],
-      st: [0, 0, 0, 0, 0, 0],
-    },
-  },
+  pokeData: {},
 };
 
 /**
@@ -41,14 +21,14 @@ const appReducer: Reducer<AppState> = (
 ) => {
   let newState = state;
   switch (action.type) {
-    case UPDATE_MESSAGE:
-      {
-        // ステート更新する場合は、別のオブジェクトを作成する
-        newState = clone(state);
-        const _action = action as UpdateMessageAction;
-        newState.message = _action.message;
-      }
-      break;
+    // case UPDATE_MESSAGE:
+    //   {
+    //     // ステート更新する場合は、別のオブジェクトを作成する
+    //     newState = clone(state);
+    //     const _action = action as UpdateMessageAction;
+    //     newState.message = _action.message;
+    //   }
+    //   break;
     case UPDATE_POKE:
       {
         newState = clone(state);
