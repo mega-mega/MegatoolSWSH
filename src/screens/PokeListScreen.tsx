@@ -17,23 +17,34 @@ interface Events {}
 
 interface Props extends Events, AppState {}
 export const PokeListScreen = (props: Props) => {
+  // FIXME: 動かない
+  const loadPokeList = async () => {
+    (await db).collection("pokeCollection").onSnapshot((snapshot) => {
+      snapshot.forEach((doc) => {
+        console.log("=========");
+        console.log(doc.get("number"));
+      });
+    });
+  };
+
   const clickSave = async () => {
     // TODO: バリデーション処理欲しい
     const uid = await AsyncStorage.getItem("uid");
     const data = props.pokeData!;
     data.updateAt = new Date();
-    (await db)
-      .collection("userData")
-      .doc(uid!)
-      .collection("pokeCollection")
-      .doc(data.number!.toString())
-      .set(data)
-      .then(() => {
-        console.log("save");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await loadPokeList();
+    // (await db)
+    //   .collection("userData")
+    //   .doc(uid!)
+    //   .collection("pokeCollection")
+    //   .doc(data.number!.toString())
+    //   .set(data)
+    //   .then(() => {
+    //     console.log("save");
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
   return (
     <Stack.Navigator screenOptions={headerOption}>

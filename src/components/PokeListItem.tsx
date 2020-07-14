@@ -1,9 +1,29 @@
 import React from "react";
 import { StyleSheet, Image, View, Text, SafeAreaView } from "react-native";
 import palet from "../../common/palet.json";
+import { PokeType } from "../../common/PokeType";
 const ball = require("../../assets/icon.png");
 
-export const PokeListItem = () => {
+interface Props {
+  itemData?: PokeType;
+}
+
+export const PokeListItem = (props: Props) => {
+  const data: PokeType = props.itemData
+    ? props.itemData!
+    : {
+        number: 1,
+        name: "",
+        nn: "",
+        ability: "",
+        pokesonality: "",
+        item: "",
+        waza: ["", "", "", ""],
+        status: { bs: [], iv: [], ev: [], st: [] },
+        memo: "",
+        createAt: new Date(),
+        updateAt: new Date(),
+      };
   return (
     <View style={styles.container}>
       <View style={styles.pokeInfoArea}>
@@ -22,23 +42,24 @@ export const PokeListItem = () => {
               resizeMode={"contain"}
             />
           </View>
-          <Text style={styles.pokeName}>ウーラオス</Text>
+          <Text style={styles.pokeName}>{data.name}</Text>
         </View>
         {/* 特性　アイテム、NN、種族名 */}
 
         <View style={styles.pokeInfo}>
-          <Text style={styles.pokeNN}>NN: ASようき</Text>
-          <Text style={styles.pokeNN}>特性: さめはだ</Text>
-          <Text style={styles.pokeNN}>持ち物: いのちのたま</Text>
+          <Text style={styles.pokeNN}>NN: {data.nn}</Text>
+          <Text style={styles.pokeNN}>特性: {data.ability}</Text>
+          <Text style={styles.pokeNN}>持ち物: {data.item}</Text>
         </View>
       </View>
       <View style={styles.wazaArea}>
         <View style={styles.wazaLeft}>
-          <Text style={styles.waza}>ハイドロポンプ</Text>
-          <Text style={styles.waza}>れいとうビーム</Text>
-          <Text style={styles.waza}>ハイドロポンプ</Text>
-          <Text style={styles.waza}>れいとうビーム</Text>
+          <Text style={styles.waza}>{data.waza![0]}</Text>
+          <Text style={styles.waza}>{data.waza![1]}</Text>
+          <Text style={styles.waza}>{data.waza![2]}</Text>
+          <Text style={styles.waza}>{data.waza![3]}</Text>
         </View>
+        {/* ステータス画面　努力値と実数値（余裕あれば種族値表示したい） */}
         <View style={styles.wazaLeft}>
           <Text style={styles.waza}>みがわり</Text>
           <Text style={styles.waza}>あくのはどう</Text>
