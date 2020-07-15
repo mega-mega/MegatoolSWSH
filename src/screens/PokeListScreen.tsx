@@ -19,11 +19,9 @@ interface Props extends Events, AppState {}
 export const PokeListScreen = (props: Props) => {
   // FIXME: 動かない
   const loadPokeList = async () => {
-    (await db).collection("pokeCollection").onSnapshot((snapshot) => {
-      snapshot.forEach((doc) => {
-        console.log("=========");
-        console.log(doc.get("number"));
-      });
+    console.log("call!!");
+    (await (await db).collection("pokeCollection").get()).forEach((doc) => {
+      console.log(doc);
     });
   };
 
