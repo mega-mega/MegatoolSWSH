@@ -11,23 +11,31 @@ import { PokeType } from "../../common/PokeType";
 import AppState from "../states/AppState";
 import State from "../State";
 import db, { login } from "../repository/FireStore";
+import { firestore } from "firebase";
 const Stack = createStackNavigator();
 
 interface Events {}
 
 interface Props extends Events, AppState {}
 export const PokeListScreen = (props: Props) => {
-  // FIXME: 動かない
+  const onResult = (snapshot: firestore.QuerySnapshot) => {
+    snapshot.forEach((doc) => {
+      // ここは差分だけのデータがくることに注意
+      console.log("this!!");
+      console.log(doc.get("name"));
+    });
+  };
+  (async () => {
+    const uid = await AsyncStorage.getItem("uid");
+    (await db)
+      .collection("userData/" + uid + "/pokeCollection")
+      .onSnapshot(onResult, undefined);
+  })();
+  // ポケモンの一覧をリアルタイム取得してリスト生成
   const loadPokeList = async () => {
     console.log("call!!");
 
-    const snapshot = (await db)
-      .collection("userData/QWssLZIDHtUkWZYcnmLSorwBuhj1/pokeCollection")
-      .get();
-    console.log(snapshot);
-    (await snapshot).forEach((doc) => {
-      console.log(doc.get("name"));
-    });
+    // uid/pokeCollectionをリアルタイムで監視
   };
 
   const clickSave = async () => {
