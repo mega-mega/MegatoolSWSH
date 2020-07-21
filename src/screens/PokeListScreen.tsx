@@ -20,8 +20,13 @@ export const PokeListScreen = (props: Props) => {
   // FIXME: 動かない
   const loadPokeList = async () => {
     console.log("call!!");
-    (await (await db).collection("pokeCollection").get()).forEach((doc) => {
-      console.log(doc);
+
+    const snapshot = (await db)
+      .collection("userData/QWssLZIDHtUkWZYcnmLSorwBuhj1/pokeCollection")
+      .get();
+    console.log(snapshot);
+    (await snapshot).forEach((doc) => {
+      console.log(doc.get("name"));
     });
   };
 
