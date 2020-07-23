@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Image, View, Text, SafeAreaView } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import palet from "../../common/palet.json";
 import { PokeType } from "../../common/PokeType";
 const ball = require("../../assets/icon.png");
@@ -12,13 +12,13 @@ export const PokeListItem = (props: Props) => {
   const data: PokeType = props.itemData
     ? props.itemData!
     : {
-        number: 1,
-        name: "",
-        nn: "",
-        ability: "",
-        pokesonality: "",
-        item: "",
-        waza: ["", "", "", ""],
+        number: 4,
+        name: "no name",
+        nn: "nickname",
+        ability: "ability",
+        pokesonality: "ようき",
+        item: "こだわりハチマキ",
+        waza: ["げきりん", "じしん", "つるぎのまい", "がんせきふうじ"],
         status: { bs: [], iv: [], ev: [], st: [] },
         memo: "",
         createAt: new Date(),
@@ -28,9 +28,9 @@ export const PokeListItem = (props: Props) => {
     <View style={styles.container}>
       <View style={styles.pokeInfoArea}>
         <View style={styles.imageArea}>
-          <Image source={ball} style={styles.image} resizeMode={"contain"} />
+          {/* <Image source={ball} style={styles.image} resizeMode={"contain"} /> */}
           {/* タイプエリア */}
-          <View style={styles.typeArea}>
+          {/* <View style={styles.typeArea}>
             <Image
               source={ball}
               style={styles.typeImage}
@@ -41,7 +41,7 @@ export const PokeListItem = (props: Props) => {
               style={styles.typeImage}
               resizeMode={"contain"}
             />
-          </View>
+          </View> */}
           <Text style={styles.pokeName}>{data.name}</Text>
         </View>
         {/* 特性　アイテム、NN、種族名 */}

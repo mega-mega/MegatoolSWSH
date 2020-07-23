@@ -1,27 +1,33 @@
 import React from "react";
-import { StyleSheet, View, Text, ScrollView, TextInput } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { PokeType } from "../../common/PokeType";
+import { createUpdatePokeAction } from "../actions/AppAction";
 import StatusTable from "../components/StatusTable";
 import { Banner } from "../elements/Banner";
-import { PokeType } from "../../common/PokeType";
-import AppState from "../states/AppState";
 import State from "../State";
-import { createUpdatePokeAction } from "../actions/AppAction";
+import AppState from "../states/AppState";
+import Hashids from "hashids";
 
 interface Events {
   // ポケモンリストと1個体分のイベント作る
-
   onChangePokemon: (pokeData: PokeType) => void;
 }
 
 interface Props extends Events, AppState {
   pokeProp?: PokeType;
+  updateAt: Date;
 }
+
+const getUniqueHash = (createAt: Date) => {
+  const hashids = new Hashids();
+  return hashids.encode(createAt.getTime());
+};
 
 export const PokeEditScreen = (props: Props) => {
   const pokeData: PokeType = props.pokeProp || {
-    number: 0,
+    hash: getUniqueHash(props.updateAt),
     name: "ガブリアス",
     nn: "陽気スカーフ",
     ability: "さめはだ",
@@ -35,9 +41,19 @@ export const PokeEditScreen = (props: Props) => {
       st: [0, 0, 0, 0, 0, 0],
     },
     memo: "",
-    createAt: new Date(),
-    updateAt: new Date(),
+    createAt: props.updateAt,
+    updateAt: props.updateAt,
   };
+  pokeData.updateAt = props.updateAt;
+  console.log(props.pokeData);
+  // FIXME: propsが無限に更新されてしまう、関数切り出しして一度だけ呼ばれるように修正
+  if (props.pokeData) {
+    console.log("init");
+    console.log(props.pokeData.hash);
+    console.log(pokeData.hash);
+    props.onChangePokemon(pokeData);
+  }
+
   // 技入力エリア1つ
   const wazaInput = (waza: string, index: number) => {
     return (
@@ -47,7 +63,6 @@ export const PokeEditScreen = (props: Props) => {
           style={styles.abilityInput}
           onChangeText={(text) => {
             pokeData.waza![index] = text;
-
             props.onChangePokemon(pokeData);
           }}
         />
@@ -62,6 +77,7 @@ export const PokeEditScreen = (props: Props) => {
           <Text>name: </Text>
           <TextInput
             style={styles.nameInput}
+            value={props.pokeData?.name}
             onChangeText={(text) => {
               pokeData.name = text;
               props.onChangePokemon(pokeData);
