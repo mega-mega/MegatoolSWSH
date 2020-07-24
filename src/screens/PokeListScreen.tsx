@@ -1,16 +1,18 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { firestore } from "firebase";
 import React from "react";
-import { AsyncStorage, StyleSheet, View } from "react-native";
-import { Icon } from "react-native-elements";
+import { AsyncStorage, StyleSheet, Text, View } from "react-native";
+import { Header, Icon } from "react-native-elements";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { logger } from "react-native-logs";
+import Toast from "react-native-tiny-toast";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import palet from "../../common/palet.json";
 import { PokeType } from "../../common/PokeType";
 import {
-  createUpdatePokeListAction,
   createUpdatePokeAction,
+  createUpdatePokeListAction,
 } from "../actions/AppAction";
 import PokeListItem from "../components/PokeListItem";
 import CircleButton from "../elements/CircleButton";
@@ -18,6 +20,7 @@ import db from "../repository/FireStore";
 import State from "../State";
 import AppState from "../states/AppState";
 import PokeEditScreen from "./PokeEditScreen";
+
 const Stack = createStackNavigator();
 
 interface Events {
@@ -72,34 +75,14 @@ export const PokeListScreen = (props: Props) => {
     props.pokeList!.forEach((element) => {
       console.log(element.name);
     });
-    // uid/pokeCollectionをリアルタイムで監視
   };
 
   // 個体の保存処理
-  const clickSave = async () => {
+  const clickSave = (navigationProps: any) => async () => {
     // TODO: バリデーション処理欲しい
     const uid = await AsyncStorage.getItem("uid");
     const data = props.pokeData!;
-    // const data: PokeType = {
-    //   number: 4,
-    //   name: "ガブリアス",
-    //   nn: "陽気スカーフ",
-    //   ability: "さめはだ",
-    //   pokesonality: "ようき",
-    //   item: "こだわりスカーフ",
-    //   waza: ["", "", "", ""],
-    //   status: {
-    //     bs: [0, 0, 0, 0, 0, 0],
-    //     iv: [0, 0, 0, 0, 0, 0],
-    //     ev: [0, 0, 0, 0, 0, 0],
-    //     st: [0, 0, 0, 0, 0, 0],
-    //   },
-    //   memo: "",
-    //   createAt: new Date(),
-    //   updateAt: new Date(),
-    // };
     data.updateAt = new Date();
-    console.log(data);
     (await db)
       .collection("userData")
       .doc(uid!)
@@ -112,6 +95,16 @@ export const PokeListScreen = (props: Props) => {
       .catch((error) => {
         log.error(error);
       });
+    const { navigation } = navigationProps;
+    navigation.navigate("一覧");
+    // TODO: スタイルつける https://www.npmjs.com/package/react-native-tiny-toast
+    Toast.show("保存しました", {
+      position: Toast.position.BOTTOM,
+      textStyle: {
+        color: palet.back,
+      },
+      visible: true,
+    });
   };
   return (
     <Stack.Navigator screenOptions={headerOption}>
@@ -119,16 +112,45 @@ export const PokeListScreen = (props: Props) => {
       <Stack.Screen
         name="追加"
         options={{
-          headerRight: () => {
+          header: ({ scene, previous, navigation }) => {
             return (
-              <Icon
-                name="save"
-                type="font-awesome"
-                color={palet.back}
-                style={{
-                  marginRight: 20,
+              <Header
+                centerComponent={{
+                  text: "ポケモン追加",
+                  style: { color: palet.back, fontSize: 16 },
                 }}
-                onPress={clickSave}
+                rightComponent={
+                  <Icon
+                    name="save"
+                    type="font-awesome"
+                    color={palet.back}
+                    style={{
+                      marginRight: 20,
+                    }}
+                    onPress={clickSave(props)}
+                  />
+                }
+                leftComponent={
+                  <TouchableOpacity onPress={navigation.goBack}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Icon
+                        name="angle-left"
+                        type="font-awesome"
+                        color={palet.back}
+                        style={{
+                          marginLeft: 10,
+                        }}
+                      />
+                      <Text style={styles.text}>一覧</Text>
+                    </View>
+                  </TouchableOpacity>
+                }
+                backgroundColor={palet.main}
               />
             );
           },
@@ -149,7 +171,7 @@ const headerOption = {
   },
 };
 
-// FIXME: propsの型を調べる
+// 一覧のViewを生成
 const ListView = (pokeList?: PokeType[]) => (props: any) => {
   const { navigation } = props;
   const list: any[] = [];
@@ -158,13 +180,8 @@ const ListView = (pokeList?: PokeType[]) => (props: any) => {
   });
   return (
     <View style={styles.container}>
-      {list}
-      {/* <PokeListItem />
-      <PokeListItem />
-      <PokeListItem />
-      <PokeListItem />
-      <PokeListItem />
-      <PokeListItem /> */}
+      <ScrollView>{list}</ScrollView>
+      <Toast />
       <CircleButton
         onPress={() => {
           navigation.navigate("追加");
@@ -196,6 +213,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+  },
+  text: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: palet.back,
   },
 });
 const mapStateToProps = (state: State): AppState => {
