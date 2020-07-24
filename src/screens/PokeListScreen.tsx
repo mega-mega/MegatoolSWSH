@@ -176,7 +176,7 @@ const ListView = (pokeList?: PokeType[]) => (props: any) => {
   const { navigation } = props;
   const list: any[] = [];
   pokeList?.forEach((item) => {
-    return list.push(<PokeListItem />);
+    return list.push(<PokeListItem itemData={item} />);
   });
   return (
     <View style={styles.container}>

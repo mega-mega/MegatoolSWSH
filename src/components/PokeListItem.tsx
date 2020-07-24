@@ -12,7 +12,7 @@ export const PokeListItem = (props: Props) => {
   const data: PokeType = props.itemData
     ? props.itemData!
     : {
-        number: 4,
+        hash: "0",
         name: "no name",
         nn: "nickname",
         ability: "ability",
