@@ -20,6 +20,7 @@ const db = firebaseApp
   .firestore()
   .enablePersistence()
   .then(() => {
+    login();
     return firebase.firestore();
   })
   .catch((err) => {

@@ -6,7 +6,8 @@
     "quotemark": [true, "double", "avoid-escape", "jsx-double"],
     "indent": [true, "spaces", 4],
     "no-console": false,
-    "no-empty-interface": false
+    "no-empty-interface": false,
+    "no-var-requires": false
   },
   "rulesDirectory": []
 }

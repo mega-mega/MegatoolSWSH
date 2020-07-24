@@ -1,7 +1,11 @@
 import clone from "clone";
 import { Action, Reducer } from "redux";
-
-import { UpdatePokeAction, UPDATE_POKE } from "../actions/AppAction";
+import {
+  UpdatePokeAction,
+  UpdatePokeListAction,
+  UPDATE_POKE,
+  UPDATE_POKE_LIST,
+} from "../actions/AppAction";
 import AppState from "../states/AppState";
 
 /**
@@ -9,6 +13,7 @@ import AppState from "../states/AppState";
  */
 const initState: AppState = {
   pokeData: {},
+  pokeList: undefined,
 };
 
 /**
@@ -21,19 +26,18 @@ const appReducer: Reducer<AppState> = (
 ) => {
   let newState = state;
   switch (action.type) {
-    // case UPDATE_MESSAGE:
-    //   {
-    //     // ステート更新する場合は、別のオブジェクトを作成する
-    //     newState = clone(state);
-    //     const _action = action as UpdateMessageAction;
-    //     newState.message = _action.message;
-    //   }
-    //   break;
     case UPDATE_POKE:
       {
         newState = clone(state);
         const _action = action as UpdatePokeAction;
         newState.pokeData = _action.pokeData;
+      }
+      break;
+    case UPDATE_POKE_LIST:
+      {
+        newState = clone(state);
+        const _action = action as UpdatePokeListAction;
+        newState.pokeList = _action.pokeList;
       }
       break;
     default:

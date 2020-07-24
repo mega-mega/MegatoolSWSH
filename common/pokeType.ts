@@ -1,5 +1,5 @@
 export interface PokeType {
-  number?: number;
+  hash?: string;
   name?: string;
   nn?: string;
   ability?: string;
