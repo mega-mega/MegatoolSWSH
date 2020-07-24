@@ -71,10 +71,10 @@ export const PokeListItem = (props: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "12%",
+    height: 80,
     width: "100%",
     flexDirection: "row",
-    marginBottom: 2,
+    marginBottom: 5,
   },
   pokeInfoArea: {
     width: "50%",

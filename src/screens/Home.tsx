@@ -1,22 +1,16 @@
-import React from "react";
-import { StyleSheet, Text, View, AsyncStorage } from "react-native";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { createUpdateMessageAction } from "../actions/AppAction";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import State from "../State";
-import AppState from "../states/AppState";
-import PartyChoiceScreen from "./PartyChoiceScreen";
-import SettingScreen from "./SettingScreen";
-import PokeListScreen from "./PokeListScreen";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import palet from "../../common/palet.json";
 import { login } from "../repository/FireStore";
+import AppState from "../states/AppState";
+import PartyChoiceScreen from "./PartyChoiceScreen";
+import PokeListScreen from "./PokeListScreen";
+import SettingScreen from "./SettingScreen";
 const Tab = createBottomTabNavigator();
 
-interface Events {
-  onChangeMessage: (message: string) => void;
-}
+interface Events {}
 
 interface Props extends Events, AppState {}
 export const Home = (props: Props) => {
@@ -45,24 +39,10 @@ export const Home = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: State): AppState => {
-  return {
-    message: state.app.message,
-  };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch): Events => {
-  return {
-    onChangeMessage: (message: string) => {
-      dispatch(createUpdateMessageAction(message));
-    },
-  };
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: palet.back,
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
