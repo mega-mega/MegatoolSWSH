@@ -112,8 +112,6 @@ export const PokeListScreen = (props: Props) => {
       .catch((error) => {
         log.error(error);
       });
-    // 保存後にstateを空にする
-    props.onChangePokemon({});
   };
   return (
     <Stack.Navigator screenOptions={headerOption}>

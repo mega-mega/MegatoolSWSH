@@ -26,32 +26,33 @@ const getUniqueHash = (createAt: Date) => {
 };
 
 export const PokeEditScreen = (props: Props) => {
-  const pokeData: PokeType = props.pokeProp || {
-    hash: getUniqueHash(props.updateAt),
-    name: "ガブリアス",
-    nn: "陽気スカーフ",
-    ability: "さめはだ",
-    pokesonality: "ようき",
-    item: "こだわりスカーフ",
-    waza: ["", "", "", ""],
-    status: {
-      bs: [0, 0, 0, 0, 0, 0],
-      iv: [0, 0, 0, 0, 0, 0],
-      ev: [0, 0, 0, 0, 0, 0],
-      st: [0, 0, 0, 0, 0, 0],
-    },
-    memo: "",
-    createAt: props.updateAt,
-    updateAt: props.updateAt,
-  };
+  const pokeData: PokeType = props.pokeProp
+    ? props.pokeData!
+    : {
+        hash: getUniqueHash(props.updateAt),
+        name: "ガブリアス",
+        nn: "陽気スカーフ",
+        ability: "さめはだ",
+        pokesonality: "ようき",
+        item: "こだわりスカーフ",
+        waza: ["", "", "", ""],
+        status: {
+          bs: [0, 0, 0, 0, 0, 0],
+          iv: [0, 0, 0, 0, 0, 0],
+          ev: [0, 0, 0, 0, 0, 0],
+          st: [0, 0, 0, 0, 0, 0],
+        },
+        memo: "",
+        createAt: props.updateAt,
+        updateAt: props.updateAt,
+      };
   pokeData.updateAt = props.updateAt;
-  console.log(props.pokeData);
   // FIXME: propsが無限に更新されてしまう、関数切り出しして一度だけ呼ばれるように修正
-  if (props.pokeData) {
+  if (props.pokeData && props.pokeData.createAt !== props.updateAt) {
     console.log("init");
     console.log(props.pokeData.hash);
     console.log(pokeData.hash);
-    props.onChangePokemon(pokeData);
+    // props.onChangePokemon(pokeData);
   }
 
   // 技入力エリア1つ
