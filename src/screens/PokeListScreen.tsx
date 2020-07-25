@@ -33,35 +33,39 @@ export const PokeListScreen = (props: Props) => {
   const log = logger.createLogger();
 
   // DBに更新があると呼ばれる
+  // TODO: 効率が悪いのでいつか消す
   const onResult = (snapshot: firestore.QuerySnapshot) => {
-    log.debug("update");
     const pokeList = props.pokeList ? props.pokeList : [];
     snapshot.forEach((doc) => {
-      // ここは差分だけのデータがくることに注意
-      // log.info("update" + doc.get("name"));
+      // ここは全てのデータがくるので効率が悪い
       const poke = createPoke(doc);
       pokeList?.push(poke);
     });
-    props.onChangePokeList(pokeList);
+    // TODO: createAt descでソートする
+    // props.onChangePokeList(pokeList);
   };
   const onError = (error: Error) => {
     log.error(error);
   };
+  // updateここまで
+
   // init
   (async () => {
     if (props.pokeList !== undefined) {
       return;
     }
     const uid = await AsyncStorage.getItem("uid");
-    // 初回のDB読み込み
+    // 初回のDB読み込み WIP
     const snapshot = (await db)
       .collection("userData/" + uid + "/pokeCollection")
+      .orderBy("createAt", "desc")
       .get();
     const dbList: PokeType[] = [];
     (await snapshot).forEach((doc) => {
       log.debug("get " + doc.get("name"));
       dbList.push(createPoke(doc));
     });
+    // 削除処理をいれたらコメントを外す?
     props.onChangePokeList(dbList);
     // リアルタイム監視
     (await db)
@@ -180,7 +184,9 @@ const ListView = (pokeList?: PokeType[]) => (props: any) => {
   });
   return (
     <View style={styles.container}>
-      <ScrollView>{list}</ScrollView>
+      <ScrollView style={{ flex: 1, marginHorizontal: 5, marginVertical: 3 }}>
+        {list}
+      </ScrollView>
       <Toast />
       <CircleButton
         onPress={() => {
