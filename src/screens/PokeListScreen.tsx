@@ -305,6 +305,7 @@ const createPoke = (doc: firestore.DocumentData): PokeType => {
 
   // console.log(arr);
   return {
+    // TODO: waza, statusの構造見直し
     hash: doc.get("hash"),
     name: doc.get("name"),
     nn: doc.get("nn"),
