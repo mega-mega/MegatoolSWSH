@@ -1,6 +1,9 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from "@react-navigation/stack";
 import { firestore } from "firebase";
-import React from "react";
+import React, { useState } from "react";
 import { AsyncStorage, StyleSheet, Text, View } from "react-native";
 import { Header, Icon } from "react-native-elements";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
@@ -8,6 +11,7 @@ import { logger } from "react-native-logs";
 import Toast from "react-native-tiny-toast";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { ConfirmDialog } from "react-native-simple-dialogs";
 import palet from "../../common/palet.json";
 import { PokeType } from "../../common/PokeType";
 import {
@@ -30,19 +34,28 @@ interface Events {
 
 interface Props extends Events, AppState {}
 export const PokeListScreen = (props: Props) => {
+  const [editTitle, setEditTitle] = useState("ポケモン追加");
+
   const log = logger.createLogger();
 
   // DBに更新があると呼ばれる
-  // TODO: 効率が悪いのでいつか消す
   const onResult = (snapshot: firestore.QuerySnapshot) => {
-    const pokeList = props.pokeList ? props.pokeList : [];
+    const pokeList: PokeType[] = props.pokeList ? props.pokeList : [];
     snapshot.forEach((doc) => {
       // ここは全てのデータがくるので効率が悪い
       const poke = createPoke(doc);
       pokeList?.push(poke);
     });
     // TODO: createAt descでソートする
-    // props.onChangePokeList(pokeList);
+    pokeList.sort((a, b) => {
+      if (!(a && b && a.createAt && b.createAt)) return 0;
+      const aTime = new Date(a.createAt);
+      const bTime = new Date(b.createAt);
+      // if (aTime.getTime() > bTime.getTime()) return 1;
+      // if (aTime.getTime() < bTime.getTime()) return -1;
+      return 0;
+    });
+    props.onChangePokeList(pokeList);
   };
   const onError = (error: Error) => {
     log.error(error);
@@ -73,14 +86,6 @@ export const PokeListScreen = (props: Props) => {
       .onSnapshot(onResult, onError);
   })();
 
-  // ポケモンの一覧をリアルタイム取得してリスト生成
-  const loadPokeList = async () => {
-    console.log("call!!");
-    props.pokeList!.forEach((element) => {
-      console.log(element.name);
-    });
-  };
-
   // 個体の保存処理
   const clickSave = (navigationProps: any) => async () => {
     // TODO: バリデーション処理欲しい
@@ -101,6 +106,7 @@ export const PokeListScreen = (props: Props) => {
       });
     const { navigation } = navigationProps;
     navigation.navigate("一覧");
+
     // TODO: スタイルつける https://www.npmjs.com/package/react-native-tiny-toast
     Toast.show("保存しました", {
       position: Toast.position.BOTTOM,
@@ -109,10 +115,24 @@ export const PokeListScreen = (props: Props) => {
       },
       visible: true,
     });
+    // hashを初期化する
+    const pokeData = props.pokeData;
+    if (pokeData) {
+      pokeData.hash = "";
+      props.onChangePokemon(pokeData!);
+    }
   };
+
   return (
     <Stack.Navigator screenOptions={headerOption}>
-      <Stack.Screen name="一覧" component={ListView(props.pokeList)} />
+      <Stack.Screen
+        name="一覧"
+        component={ListView(
+          props.pokeList!,
+          props.onChangePokemon,
+          setEditTitle
+        )}
+      />
       <Stack.Screen
         name="追加"
         options={{
@@ -120,7 +140,7 @@ export const PokeListScreen = (props: Props) => {
             return (
               <Header
                 centerComponent={{
-                  text: "ポケモン追加",
+                  text: editTitle,
                   style: { color: palet.back, fontSize: 16 },
                 }}
                 rightComponent={
@@ -135,7 +155,16 @@ export const PokeListScreen = (props: Props) => {
                   />
                 }
                 leftComponent={
-                  <TouchableOpacity onPress={navigation.goBack}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      const poke = props.pokeData;
+                      if (poke) {
+                        poke.hash = "";
+                        props.onChangePokemon(poke);
+                      }
+                      navigation.goBack();
+                    }}
+                  >
                     <View
                       style={{
                         flexDirection: "row",
@@ -175,26 +204,93 @@ const headerOption = {
   },
 };
 
+// 個体削除処理
+const showDialog = (
+  setVisible: (visible: boolean) => void,
+  setPoke: (p: PokeType) => void
+) => (pokeData: PokeType) => {
+  setPoke(pokeData);
+  setVisible(true);
+};
+
 // 一覧のViewを生成
-const ListView = (pokeList?: PokeType[]) => (props: any) => {
+const ListView = (
+  pokeList: PokeType[],
+  onChangePokemon: (p: PokeType) => void,
+  setEditTitle: (title: string) => void
+) => (props: any) => {
   const { navigation } = props;
+  const [visibleDialog, setVisibleDialog] = useState(false);
+  const [deletePoke, setDeletePoke]: [
+    PokeType,
+    (p: PokeType) => void
+  ] = useState({});
   const list: any[] = [];
   pokeList?.forEach((item) => {
-    return list.push(<PokeListItem itemData={item} />);
+    list.push(
+      <PokeListItem
+        itemData={item}
+        onClick={editPoke(navigation, onChangePokemon, setEditTitle)}
+        onLongClick={showDialog(setVisibleDialog, setDeletePoke)}
+      />
+    );
   });
   return (
     <View style={styles.container}>
+      {visibleDialog && (
+        <ConfirmDialog
+          title="完全に削除されます"
+          message={deletePoke.name + " を削除しますか？"}
+          visible={true}
+          onTouchOutside={() => setVisibleDialog(false)}
+          positiveButton={{
+            title: "はい",
+            onPress: async () => {
+              const uid = await AsyncStorage.getItem("uid");
+              console.log(deletePoke.hash);
+              (await db)
+                .collection("userData/" + uid + "/pokeCollection")
+                .doc(deletePoke.hash)
+                .delete()
+                .then(() => {
+                  Toast.show("削除しました");
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+              setVisibleDialog(false);
+            },
+          }}
+          negativeButton={{
+            title: "いいえ",
+            onPress: () => setVisibleDialog(false),
+          }}
+        />
+      )}
       <ScrollView style={{ flex: 1, marginHorizontal: 5, marginVertical: 3 }}>
         {list}
       </ScrollView>
       <Toast />
       <CircleButton
         onPress={() => {
+          setEditTitle("ポケモン追加");
           navigation.navigate("追加");
         }}
       />
     </View>
   );
+};
+
+const editPoke = (
+  navigation: StackNavigationProp<Record<string, object | undefined>, string>,
+  onChangePokemon: (p: PokeType) => void,
+  setEditTitle: (title: string) => void
+) => (pokeData: PokeType) => {
+  setEditTitle("ポケモン編集");
+  if (onChangePokemon) {
+    onChangePokemon(pokeData);
+  }
+  navigation.navigate("追加");
 };
 
 const createPoke = (doc: firestore.DocumentData): PokeType => {
