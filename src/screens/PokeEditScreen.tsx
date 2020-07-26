@@ -9,6 +9,7 @@ import { Banner } from "../elements/Banner";
 import State from "../State";
 import AppState from "../states/AppState";
 import Hashids from "hashids";
+import { logger } from "react-native-logs";
 
 interface Events {
   // ポケモンリストと1個体分のイベント作る
@@ -16,7 +17,6 @@ interface Events {
 }
 
 interface Props extends Events, AppState {
-  pokeProp?: PokeType;
   updateAt: Date;
 }
 
@@ -24,48 +24,45 @@ const getUniqueHash = (createAt: Date) => {
   const hashids = new Hashids();
   return hashids.encode(createAt.getTime());
 };
-
+const log = logger.createLogger();
 export class PokeEditScreen extends React.Component<Props, {}> {
   pokeData: PokeType = {};
   constructor(props: any) {
     super(props);
-    this.pokeData = props.pokeProp
-      ? props.pokeData!
-      : {
-          hash: getUniqueHash(props.updateAt),
-          name: "ガブリアス",
-          nn: "陽気スカーフ",
-          ability: "さめはだ",
-          pokesonality: "ようき",
-          item: "こだわりスカーフ",
-          waza: ["", "", "", ""],
-          status: {
-            bs: [0, 0, 0, 0, 0, 0],
-            iv: [0, 0, 0, 0, 0, 0],
-            ev: [0, 0, 0, 0, 0, 0],
-            st: [0, 0, 0, 0, 0, 0],
-          },
-          memo: "",
-          createAt: props.updateAt,
-          updateAt: props.updateAt,
-        };
+    this.pokeData =
+      props.pokeData.hash && props.pokeData.hash !== ""
+        ? props.pokeData!
+        : {
+            hash: getUniqueHash(props.updateAt),
+            name: "",
+            nn: "",
+            ability: "",
+            pokesonality: "",
+            item: "",
+            waza: ["", "", "", ""],
+            status: {
+              bs: [0, 0, 0, 0, 0, 0],
+              iv: [0, 0, 0, 0, 0, 0],
+              ev: [0, 0, 0, 0, 0, 0],
+              st: [0, 0, 0, 0, 0, 0],
+            },
+            memo: "",
+            createAt: props.updateAt,
+            updateAt: props.updateAt,
+          };
     this.pokeData.updateAt = props.updateAt;
-    // FIXME: propsが無限に更新されてしまう、関数切り出しして一度だけ呼ばれるように修正
-    if (props.pokeData && props.pokeData.createAt !== props.updateAt) {
-      console.log("init");
-      console.log(props.pokeData.hash);
-      console.log(this.pokeData.hash);
-      props.onChangePokemon(this.pokeData);
-    }
+    log.info("init");
+    props.onChangePokemon(this.pokeData);
   }
 
   // 技入力エリア1つ
-  wazaInput = (waza: string, index: number) => {
+  wazaInput = (waza: string, index: number, value?: string) => {
     return (
       <View>
         <Text>{waza}</Text>
         <TextInput
           style={styles.abilityInput}
+          value={value}
           onChangeText={(text) => {
             this.pokeData.waza![index] = text;
             this.props.onChangePokemon(this.pokeData);
@@ -83,6 +80,7 @@ export class PokeEditScreen extends React.Component<Props, {}> {
             <Text>name: </Text>
             <TextInput
               style={styles.nameInput}
+              placeholder={"エースバーン"}
               value={this.props.pokeData?.name}
               onChangeText={(text) => {
                 this.pokeData.name = text;
@@ -94,6 +92,8 @@ export class PokeEditScreen extends React.Component<Props, {}> {
             <Text>ニックネーム: </Text>
             <TextInput
               style={styles.nameInput}
+              placeholder={"NN、型名など"}
+              value={this.props.pokeData?.nn}
               onChangeText={(text) => {
                 this.pokeData.nn = text;
                 this.props.onChangePokemon(this.pokeData);
@@ -105,6 +105,8 @@ export class PokeEditScreen extends React.Component<Props, {}> {
               <Text>特性: </Text>
               <TextInput
                 style={styles.abilityInput}
+                placeholder={"リベロ"}
+                value={this.props.pokeData?.ability}
                 onChangeText={(text) => {
                   this.pokeData.ability = text;
                   this.props.onChangePokemon(this.pokeData);
@@ -115,6 +117,8 @@ export class PokeEditScreen extends React.Component<Props, {}> {
               <Text>持ち物: </Text>
               <TextInput
                 style={styles.abilityInput}
+                placeholder={"いのちのたま"}
+                value={this.props.pokeData?.item}
                 onChangeText={(text) => {
                   this.pokeData.item = text;
                   this.props.onChangePokemon(this.pokeData);
@@ -125,18 +129,18 @@ export class PokeEditScreen extends React.Component<Props, {}> {
           {/* 技エリア */}
           <View style={{ width: "100%", flexDirection: "row" }}>
             <View style={{ width: "50%", paddingRight: 5 }}>
-              {this.wazaInput("わざ1: ", 0)}
+              {this.wazaInput("わざ1: ", 1, this.props.pokeData!.waza![0])}
             </View>
             <View style={{ width: "50%", paddingLeft: 5 }}>
-              {this.wazaInput("わざ2: ", 1)}
+              {this.wazaInput("わざ2: ", 1, this.props.pokeData!.waza![1])}
             </View>
           </View>
           <View style={{ width: "100%", flexDirection: "row" }}>
             <View style={{ width: "50%", paddingRight: 5 }}>
-              {this.wazaInput("わざ3: ", 2)}
+              {this.wazaInput("わざ3: ", 2, this.props.pokeData!.waza![2])}
             </View>
             <View style={{ width: "50%", paddingLeft: 5 }}>
-              {this.wazaInput("わざ4: ", 3)}
+              {this.wazaInput("わざ4: ", 3, this.props.pokeData!.waza![3])}
             </View>
           </View>
           <StatusTable />
@@ -146,6 +150,7 @@ export class PokeEditScreen extends React.Component<Props, {}> {
             <Text>備考: </Text>
             <TextInput
               style={styles.nameInput}
+              value={this.props.pokeData?.memo}
               onChangeText={(text) => {
                 this.pokeData.memo = text;
                 this.props.onChangePokemon(this.pokeData);

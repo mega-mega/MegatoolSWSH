@@ -2,10 +2,14 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import palet from "../../common/palet.json";
 import { PokeType } from "../../common/PokeType";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
 const ball = require("../../assets/icon.png");
 
 interface Props {
   itemData?: PokeType;
+  onClick?: (pokeData: PokeType) => void;
+  onLongClick?: (pokeData: PokeType) => void;
 }
 
 export const PokeListItem = (props: Props) => {
@@ -25,12 +29,24 @@ export const PokeListItem = (props: Props) => {
         updateAt: new Date(),
       };
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        if (props.onClick) {
+          props.onClick(data);
+        }
+      }}
+      onLongPress={() => {
+        if (props.onLongClick) {
+          props.onLongClick(data);
+        }
+      }}
+    >
       <View style={styles.pokeInfoArea}>
         <View style={styles.imageArea}>
-          {/* <Image source={ball} style={styles.image} resizeMode={"contain"} /> */}
+          <Image source={ball} style={styles.image} resizeMode={"contain"} />
           {/* タイプエリア */}
-          {/* <View style={styles.typeArea}>
+          <View style={styles.typeArea}>
             <Image
               source={ball}
               style={styles.typeImage}
@@ -41,11 +57,10 @@ export const PokeListItem = (props: Props) => {
               style={styles.typeImage}
               resizeMode={"contain"}
             />
-          </View> */}
+          </View>
           <Text style={styles.pokeName}>{data.name}</Text>
         </View>
         {/* 特性　アイテム、NN、種族名 */}
-
         <View style={styles.pokeInfo}>
           <Text style={styles.pokeNN}>NN: {data.nn}</Text>
           <Text style={styles.pokeNN}>特性: {data.ability}</Text>
@@ -65,7 +80,7 @@ export const PokeListItem = (props: Props) => {
           <Text style={styles.waza}>あくのはどう</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
