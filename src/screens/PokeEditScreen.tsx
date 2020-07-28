@@ -34,17 +34,17 @@ export class PokeEditScreen extends React.Component<Props, {}> {
         ? props.pokeData!
         : {
             hash: getUniqueHash(props.updateAt),
-            name: "",
-            nn: "",
-            ability: "",
-            pokesonality: "",
-            item: "",
+            name: "エモンガ",
+            nn: "テスト",
+            ability: "せいでんき",
+            pokesonality: "おくびょう",
+            item: "きあいのタスキ",
             waza: { 0: "", 1: "", 2: "", 3: "" },
             status: {
               bs: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" },
-              iv: [0, 0, 0, 0, 0, 0],
-              ev: [0, 0, 0, 0, 0, 0],
-              st: [0, 0, 0, 0, 0, 0],
+              iv: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" },
+              ev: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" },
+              st: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" },
             },
             memo: "",
             createAt: props.updateAt,
@@ -56,13 +56,13 @@ export class PokeEditScreen extends React.Component<Props, {}> {
   }
 
   // 技入力エリア1つ
-  wazaInput = (waza: string, index: number, value?: string) => {
+  wazaInput = (waza: string, index: 0 | 1 | 2 | 3, propsValue?: string) => {
     return (
       <View>
         <Text>{waza}</Text>
         <TextInput
           style={styles.abilityInput}
-          value={value}
+          value={propsValue}
           onChangeText={(text) => {
             this.pokeData.waza![index] = text;
             this.props.onChangePokemon(this.pokeData);
@@ -129,18 +129,18 @@ export class PokeEditScreen extends React.Component<Props, {}> {
           {/* 技エリア */}
           <View style={{ width: "100%", flexDirection: "row" }}>
             <View style={{ width: "50%", paddingRight: 5 }}>
-              {this.wazaInput("わざ1: ", 1, this.props.pokeData!.waza![0])}
+              {this.wazaInput("わざ1: ", 0, this.props.pokeData!.waza?.[0])}
             </View>
             <View style={{ width: "50%", paddingLeft: 5 }}>
-              {this.wazaInput("わざ2: ", 1, this.props.pokeData!.waza![1])}
+              {this.wazaInput("わざ2: ", 1, this.props.pokeData!.waza?.[1])}
             </View>
           </View>
           <View style={{ width: "100%", flexDirection: "row" }}>
             <View style={{ width: "50%", paddingRight: 5 }}>
-              {this.wazaInput("わざ3: ", 2, this.props.pokeData!.waza![2])}
+              {this.wazaInput("わざ3: ", 2, this.props.pokeData!.waza?.[2])}
             </View>
             <View style={{ width: "50%", paddingLeft: 5 }}>
-              {this.wazaInput("わざ4: ", 3, this.props.pokeData!.waza![3])}
+              {this.wazaInput("わざ4: ", 3, this.props.pokeData!.waza?.[3])}
             </View>
           </View>
           <StatusTable />
