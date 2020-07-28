@@ -22,7 +22,12 @@ export const PokeListItem = (props: Props) => {
         ability: "ability",
         pokesonality: "ようき",
         item: "こだわりハチマキ",
-        waza: ["げきりん", "じしん", "つるぎのまい", "がんせきふうじ"],
+        waza: {
+          0: "げきりん",
+          1: "じしん",
+          2: "つるぎのまい",
+          3: "がんせきふうじ",
+        },
         status: { bs: [], iv: [], ev: [], st: [] },
         memo: "",
         createAt: new Date(),
@@ -69,10 +74,10 @@ export const PokeListItem = (props: Props) => {
       </View>
       <View style={styles.wazaArea}>
         <View style={styles.wazaLeft}>
-          <Text style={styles.waza}>{data.waza![0]}</Text>
-          <Text style={styles.waza}>{data.waza![1]}</Text>
-          <Text style={styles.waza}>{data.waza![2]}</Text>
-          <Text style={styles.waza}>{data.waza![3]}</Text>
+          <Text style={styles.waza}>{data.waza?.[0]}</Text>
+          <Text style={styles.waza}>{data.waza?.[1]}</Text>
+          <Text style={styles.waza}>{data.waza?.[2]}</Text>
+          <Text style={styles.waza}>{data.waza?.[3]}</Text>
         </View>
         {/* ステータス画面　努力値と実数値（余裕あれば種族値表示したい） */}
         <View style={styles.wazaLeft}>

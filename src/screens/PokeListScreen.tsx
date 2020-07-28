@@ -49,10 +49,13 @@ export const PokeListScreen = (props: Props) => {
     // TODO: createAt descでソートする
     pokeList.sort((a, b) => {
       if (!(a && b && a.createAt && b.createAt)) return 0;
-      const aTime = new Date(a.createAt);
-      const bTime = new Date(b.createAt);
-      // if (aTime.getTime() > bTime.getTime()) return 1;
-      // if (aTime.getTime() < bTime.getTime()) return -1;
+      const aTime = a.createAt;
+      const bTime = b.createAt;
+      // console.log(a);
+      // console.log(JSON.stringify(a));
+      // console.log(JSON.stringify(a.waza));
+      if (aTime.getTime() > bTime.getTime()) return -1;
+      if (aTime.getTime() < bTime.getTime()) return 1;
       return 0;
     });
     props.onChangePokeList(pokeList);
@@ -78,7 +81,6 @@ export const PokeListScreen = (props: Props) => {
       log.debug("get " + doc.get("name"));
       dbList.push(createPoke(doc));
     });
-    // 削除処理をいれたらコメントを外す?
     props.onChangePokeList(dbList);
     // リアルタイム監視
     (await db)
@@ -294,18 +296,27 @@ const editPoke = (
 };
 
 const createPoke = (doc: firestore.DocumentData): PokeType => {
+  const wazaobj = { ...doc.get("waza") };
+  const arr = [];
+  Object.values(wazaobj).forEach((item) => {
+    console.log(item);
+    // arr.push(item);
+  });
+
+  // console.log(arr);
   return {
+    // TODO: waza, statusの構造見直し
     hash: doc.get("hash"),
     name: doc.get("name"),
     nn: doc.get("nn"),
     ability: doc.get("ability"),
     pokesonality: doc.get("pokesonality"),
     item: doc.get("item"),
-    waza: doc.get("waza"),
-    status: doc.get("status"),
+    waza: { ...doc.get("waza") },
+    status: { ...doc.get("status") },
     memo: doc.get("memo"),
-    createAt: doc.get("createAt"),
-    updateAt: doc.get("updateAt"),
+    createAt: doc.get("createAt").toDate(),
+    updateAt: doc.get("updateAt").toDate(),
   };
 };
 
