@@ -22,7 +22,12 @@ export const PokeListItem = (props: Props) => {
         ability: "ability",
         pokesonality: "ようき",
         item: "こだわりハチマキ",
-        waza: ["げきりん", "じしん", "つるぎのまい", "がんせきふうじ"],
+        waza: {
+          0: "げきりん",
+          1: "じしん",
+          2: "つるぎのまい",
+          3: "がんせきふうじ",
+        },
         status: { bs: [], iv: [], ev: [], st: [] },
         memo: "",
         createAt: new Date(),

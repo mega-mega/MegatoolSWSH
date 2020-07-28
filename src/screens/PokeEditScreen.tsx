@@ -39,9 +39,9 @@ export class PokeEditScreen extends React.Component<Props, {}> {
             ability: "",
             pokesonality: "",
             item: "",
-            waza: ["", "", "", ""],
+            waza: { 0: "", 1: "", 2: "", 3: "" },
             status: {
-              bs: [0, 0, 0, 0, 0, 0],
+              bs: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" },
               iv: [0, 0, 0, 0, 0, 0],
               ev: [0, 0, 0, 0, 0, 0],
               st: [0, 0, 0, 0, 0, 0],

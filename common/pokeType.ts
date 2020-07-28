@@ -5,14 +5,28 @@ export interface PokeType {
   ability?: string;
   pokesonality?: string;
   item?: string;
-  waza?: string[];
+  waza?: {
+    0: string;
+    1: string;
+    2: string;
+    3: string;
+  };
   status?: {
-    bs: number[];
-    iv: number[];
-    ev: number[];
-    st: number[];
+    bs: states;
+    iv: states;
+    ev: states;
+    st: states;
   };
   memo?: string;
   createAt?: Date;
   updateAt?: Date;
+}
+
+interface states {
+  0: number;
+  1: number;
+  2: number;
+  3: number;
+  4: number;
+  5: number;
 }
