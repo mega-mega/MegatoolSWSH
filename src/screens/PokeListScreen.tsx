@@ -296,16 +296,7 @@ const editPoke = (
 };
 
 const createPoke = (doc: firestore.DocumentData): PokeType => {
-  const wazaobj = { ...doc.get("waza") };
-  const arr = [];
-  Object.values(wazaobj).forEach((item) => {
-    console.log(item);
-    // arr.push(item);
-  });
-
-  // console.log(arr);
   return {
-    // TODO: waza, statusの構造見直し
     hash: doc.get("hash"),
     name: doc.get("name"),
     nn: doc.get("nn"),
@@ -326,6 +317,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    backgroundColor: palet.back,
   },
   text: {
     marginLeft: 10,
