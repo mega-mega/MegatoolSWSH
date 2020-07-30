@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     marginBottom: "auto",
     marginLeft: 1,
+    backgroundColor: "white",
   },
   typeImage: {
     width: "80%",

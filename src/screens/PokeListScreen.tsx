@@ -129,6 +129,19 @@ export const PokeListScreen = (props: Props) => {
     <Stack.Navigator screenOptions={headerOption}>
       <Stack.Screen
         name="一覧"
+        options={{
+          header: () => {
+            return (
+              <Header
+                centerComponent={{
+                  text: "一覧",
+                  style: { color: palet.text, fontSize: 16 },
+                }}
+                backgroundColor={palet.main}
+              />
+            );
+          },
+        }}
         component={ListView(
           props.pokeList!,
           props.onChangePokemon,
@@ -143,13 +156,13 @@ export const PokeListScreen = (props: Props) => {
               <Header
                 centerComponent={{
                   text: editTitle,
-                  style: { color: palet.back, fontSize: 16 },
+                  style: { color: palet.text, fontSize: 16 },
                 }}
                 rightComponent={
                   <Icon
                     name="save"
                     type="font-awesome"
-                    color={palet.back}
+                    color={palet.text}
                     style={{
                       marginRight: 20,
                     }}
@@ -176,7 +189,7 @@ export const PokeListScreen = (props: Props) => {
                       <Icon
                         name="angle-left"
                         type="font-awesome"
-                        color={palet.back}
+                        color={palet.text}
                         style={{
                           marginLeft: 10,
                         }}
@@ -322,7 +335,7 @@ const styles = StyleSheet.create({
   text: {
     marginLeft: 10,
     fontSize: 16,
-    color: palet.back,
+    color: palet.text,
   },
 });
 const mapStateToProps = (state: State): AppState => {

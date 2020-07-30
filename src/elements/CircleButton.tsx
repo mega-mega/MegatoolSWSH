@@ -20,7 +20,7 @@ export const CircleButton = (props: Props) => {
         icon={
           <Icon
             name={"plus"}
-            color={palet.back}
+            color={palet.text}
             size={20}
             type={"font-awesome-5"}
             iconStyle={styles.iconstyle}
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
+    shadowColor: palet.text,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 3,
