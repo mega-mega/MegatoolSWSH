@@ -129,6 +129,19 @@ export const PokeListScreen = (props: Props) => {
     <Stack.Navigator screenOptions={headerOption}>
       <Stack.Screen
         name="一覧"
+        options={{
+          header: () => {
+            return (
+              <Header
+                centerComponent={{
+                  text: "一覧",
+                  style: { color: palet.text, fontSize: 16 },
+                }}
+                backgroundColor={palet.main}
+              />
+            );
+          },
+        }}
         component={ListView(
           props.pokeList!,
           props.onChangePokemon,
@@ -143,13 +156,13 @@ export const PokeListScreen = (props: Props) => {
               <Header
                 centerComponent={{
                   text: editTitle,
-                  style: { color: palet.back, fontSize: 16 },
+                  style: { color: palet.text, fontSize: 16 },
                 }}
                 rightComponent={
                   <Icon
                     name="save"
                     type="font-awesome"
-                    color={palet.back}
+                    color={palet.text}
                     style={{
                       marginRight: 20,
                     }}
@@ -176,7 +189,7 @@ export const PokeListScreen = (props: Props) => {
                       <Icon
                         name="angle-left"
                         type="font-awesome"
-                        color={palet.back}
+                        color={palet.text}
                         style={{
                           marginLeft: 10,
                         }}
@@ -296,16 +309,7 @@ const editPoke = (
 };
 
 const createPoke = (doc: firestore.DocumentData): PokeType => {
-  const wazaobj = { ...doc.get("waza") };
-  const arr = [];
-  Object.values(wazaobj).forEach((item) => {
-    console.log(item);
-    // arr.push(item);
-  });
-
-  // console.log(arr);
   return {
-    // TODO: waza, statusの構造見直し
     hash: doc.get("hash"),
     name: doc.get("name"),
     nn: doc.get("nn"),
@@ -326,11 +330,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    backgroundColor: palet.back,
   },
   text: {
     marginLeft: 10,
     fontSize: 16,
-    color: palet.back,
+    color: palet.text,
   },
 });
 const mapStateToProps = (state: State): AppState => {

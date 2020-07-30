@@ -1,8 +1,8 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import palet from "../../common/palet.json";
 import { PokeType } from "../../common/PokeType";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ball = require("../../assets/icon.png");
 
@@ -16,19 +16,19 @@ export const PokeListItem = (props: Props) => {
   const data: PokeType = props.itemData
     ? props.itemData!
     : {
-        hash: "0",
+        hash: "",
         name: "no name",
         nn: "nickname",
-        ability: "ability",
-        pokesonality: "ようき",
-        item: "こだわりハチマキ",
-        waza: {
-          0: "げきりん",
-          1: "じしん",
-          2: "つるぎのまい",
-          3: "がんせきふうじ",
+        ability: "",
+        pokesonality: "",
+        item: "",
+        waza: { 0: "", 1: "", 2: "", 3: "" },
+        status: {
+          bs: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+          iv: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+          ev: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+          st: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
         },
-        status: { bs: [], iv: [], ev: [], st: [] },
         memo: "",
         createAt: new Date(),
         updateAt: new Date(),
@@ -63,7 +63,9 @@ export const PokeListItem = (props: Props) => {
               resizeMode={"contain"}
             />
           </View>
-          <Text style={styles.pokeName}>{data.name}</Text>
+          <View style={styles.pokeNameArea}>
+            <Text style={styles.pokeName}>{data.name}</Text>
+          </View>
         </View>
         {/* 特性　アイテム、NN、種族名 */}
         <View style={styles.pokeInfo}>
@@ -74,15 +76,23 @@ export const PokeListItem = (props: Props) => {
       </View>
       <View style={styles.wazaArea}>
         <View style={styles.wazaLeft}>
-          <Text style={styles.waza}>{data.waza?.[0]}</Text>
-          <Text style={styles.waza}>{data.waza?.[1]}</Text>
-          <Text style={styles.waza}>{data.waza?.[2]}</Text>
-          <Text style={styles.waza}>{data.waza?.[3]}</Text>
+          <View style={[styles.wazaBack, styles.underline]}>
+            <Text style={styles.wazaText}>{data.waza?.[0]}</Text>
+          </View>
+          <View style={[styles.wazaBack, styles.underline]}>
+            <Text style={styles.wazaText}>{data.waza?.[1]}</Text>
+          </View>
+          <View style={[styles.wazaBack, styles.underline]}>
+            <Text style={styles.wazaText}>{data.waza?.[2]}</Text>
+          </View>
+          <View style={[styles.wazaBack, styles.underline]}>
+            <Text style={styles.wazaText}>{data.waza?.[3]}</Text>
+          </View>
         </View>
         {/* ステータス画面　努力値と実数値（余裕あれば種族値表示したい） */}
         <View style={styles.wazaLeft}>
-          <Text style={styles.waza}>みがわり</Text>
-          <Text style={styles.waza}>あくのはどう</Text>
+          <Text style={styles.wazaText}>みがわり</Text>
+          <Text style={styles.wazaText}>あくのはどう</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -91,15 +101,26 @@ export const PokeListItem = (props: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 80,
+    height: 100,
     width: "100%",
     flexDirection: "row",
-    marginBottom: 5,
+    marginBottom: 10,
+    padding: 3,
+    borderRadius: 10,
+    backgroundColor: palet.main,
+    shadowColor: palet.text,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+
+    elevation: 5,
   },
   pokeInfoArea: {
     width: "50%",
     height: "100%",
-    backgroundColor: palet.sub,
   },
   imageArea: {
     width: "100%",
@@ -119,6 +140,7 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     marginBottom: "auto",
     marginLeft: 1,
+    backgroundColor: "white",
   },
   typeImage: {
     width: "80%",
@@ -131,46 +153,58 @@ const styles = StyleSheet.create({
   pokeInfo: {
     width: "100%",
     height: "60%",
-    backgroundColor: "red",
   },
   wazaArea: {
     width: "50%",
     height: "100%",
-    backgroundColor: "gray",
     flexDirection: "row",
   },
   wazaRight: {
     width: "50%",
     height: "100%",
-    margin: 2,
-    backgroundColor: "white",
   },
   wazaLeft: {
     width: "50%",
     height: "100%",
-    margin: 2,
-    backgroundColor: "green",
   },
-  waza: {
-    color: "#fff",
+  underline: {
+    borderBottomColor: palet.text,
+    borderBottomWidth: 0.2,
+  },
+  wazaBack: {
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  wazaText: {
+    color: palet.text,
     fontWeight: "600",
     fontSize: 11,
     marginTop: "auto",
     marginBottom: "auto",
-    marginLeft: 5,
+    textAlign: "center",
   },
   pokeName: {
-    color: "#fff",
-    fontWeight: "600",
+    color: palet.text,
+    fontWeight: "400",
     fontSize: 14,
+    textAlign: "center",
+  },
+  pokeNameArea: {
     marginTop: "auto",
     marginBottom: "auto",
-    marginLeft: "auto",
-    marginRight: "auto",
+    marginLeft: 3,
+    marginRight: 3,
+    width: 120,
+    borderBottomColor: palet.text,
+    borderBottomWidth: 0.5,
+    borderColor: "white",
+    alignItems: "center",
   },
   pokeNN: {
-    color: "#fff",
-    fontWeight: "600",
+    color: palet.text,
+    fontWeight: "300",
     fontSize: 12,
     marginTop: "auto",
     marginBottom: "auto",

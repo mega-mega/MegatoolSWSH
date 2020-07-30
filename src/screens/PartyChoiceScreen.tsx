@@ -19,7 +19,7 @@ export const PartyChoiceScreen = () => {
       <Header
         centerComponent={{
           text: "パーティ選択",
-          style: { color: palet.back, fontSize: 16 },
+          style: { color: palet.text, fontSize: 16 },
         }}
         rightComponent={
           <TouchableOpacity
@@ -29,7 +29,7 @@ export const PartyChoiceScreen = () => {
           >
             <Icon
               name={"exchange-alt"}
-              color={"black"}
+              color={palet.text}
               size={20}
               type={"font-awesome-5"}
               iconStyle={styles.iconStyle}
