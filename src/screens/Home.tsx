@@ -1,13 +1,14 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Button } from "react-native";
 import palet from "../../common/palet.json";
 import { login } from "../repository/FireStore";
 import AppState from "../states/AppState";
 import PartyChoiceScreen from "./PartyChoiceScreen";
 import PokeListScreen from "./PokeListScreen";
 import SettingScreen from "./SettingScreen";
+import BottomTabBar from "../components/BottomTabBar";
 const Tab = createBottomTabNavigator();
 
 interface Events {}
@@ -19,6 +20,7 @@ export const Home = (props: Props) => {
     <View style={styles.container}>
       <NavigationContainer>
         <Tab.Navigator
+          tabBar={(props: any) => <BottomTabBar {...props} />}
           screenOptions={({ route }) => ({})}
           tabBarOptions={{
             activeTintColor: "#8C7851",

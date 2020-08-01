@@ -1,15 +1,17 @@
+import Hashids from "hashids";
 import React from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { logger } from "react-native-logs";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import palet from "../../common/palet.json";
 import { PokeType } from "../../common/PokeType";
 import { createUpdatePokeAction } from "../actions/AppAction";
 import StatusTable from "../components/StatusTable";
 import { Banner } from "../elements/Banner";
 import State from "../State";
 import AppState from "../states/AppState";
-import Hashids from "hashids";
-import { logger } from "react-native-logs";
 
 interface Events {
   // ポケモンリストと1個体分のイベント作る
@@ -58,11 +60,11 @@ export class PokeEditScreen extends React.Component<Props, {}> {
   // 技入力エリア1つ
   wazaInput = (waza: string, index: 0 | 1 | 2 | 3, propsValue?: string) => {
     return (
-      <View>
-        <Text>{waza}</Text>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.text}>{waza}</Text>
         <TextInput
           style={styles.abilityInput}
-          value={propsValue}
+          defaultValue={propsValue}
           onChangeText={(text) => {
             this.pokeData.waza![index] = text;
             this.props.onChangePokemon(this.pokeData);
@@ -76,88 +78,98 @@ export class PokeEditScreen extends React.Component<Props, {}> {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scroll}>
-          <View>
-            <Text>name: </Text>
-            <TextInput
-              style={styles.nameInput}
-              placeholder={"エースバーン"}
-              value={this.props.pokeData?.name}
-              onChangeText={(text) => {
-                this.pokeData.name = text;
-                this.props.onChangePokemon(this.pokeData);
-              }}
-            />
-          </View>
-          <View>
-            <Text>ニックネーム: </Text>
-            <TextInput
-              style={styles.nameInput}
-              placeholder={"NN、型名など"}
-              value={this.props.pokeData?.nn}
-              onChangeText={(text) => {
-                this.pokeData.nn = text;
-                this.props.onChangePokemon(this.pokeData);
-              }}
-            />
-          </View>
-          <View style={{ width: "100%", flexDirection: "row" }}>
-            <View style={{ width: "50%", paddingRight: 5 }}>
-              <Text>特性: </Text>
+          <KeyboardAwareScrollView ref={"scroll"}>
+            <View style={[styles.backBoard, styles.spaceBottom]}>
+              <Text style={styles.text}>name: </Text>
               <TextInput
-                style={styles.abilityInput}
-                placeholder={"リベロ"}
-                value={this.props.pokeData?.ability}
+                style={styles.nameInput}
+                placeholder={"エースバーン"}
+                defaultValue={this.props.pokeData?.name}
                 onChangeText={(text) => {
-                  this.pokeData.ability = text;
+                  this.pokeData.name = text;
+                  this.props.onChangePokemon(this.pokeData);
+                }}
+                autoCorrect={false}
+              />
+            </View>
+            <View style={[styles.backBoard, styles.spaceBottom]}>
+              <Text style={styles.text}>ニックネーム: </Text>
+              <TextInput
+                style={styles.nameInput}
+                placeholder={"NN、型名など"}
+                defaultValue={this.props.pokeData?.nn}
+                onChangeText={(text) => {
+                  this.pokeData.nn = text;
                   this.props.onChangePokemon(this.pokeData);
                 }}
               />
             </View>
-            <View style={{ width: "50%", paddingLeft: 5 }}>
-              <Text>持ち物: </Text>
+            <View style={{ width: "100%", flexDirection: "row" }}>
+              <View style={{ width: "50%", paddingRight: 5 }}>
+                <Text style={styles.text}>特性: </Text>
+                <TextInput
+                  style={styles.abilityInput}
+                  placeholder={"リベロ"}
+                  defaultValue={this.props.pokeData?.ability}
+                  onChangeText={(text) => {
+                    this.pokeData.ability = text;
+                    this.props.onChangePokemon(this.pokeData);
+                  }}
+                />
+              </View>
+              <View style={{ width: "50%", paddingLeft: 5 }}>
+                <Text style={styles.text}>持ち物: </Text>
+                <TextInput
+                  style={styles.abilityInput}
+                  placeholder={"いのちのたま"}
+                  defaultValue={this.props.pokeData?.item}
+                  onChangeText={(text) => {
+                    this.pokeData.item = text;
+                    this.props.onChangePokemon(this.pokeData);
+                  }}
+                />
+              </View>
+            </View>
+            {/* 技エリア */}
+            <View style={{ width: "100%", flexDirection: "row" }}>
+              <View style={{ width: "50%", paddingRight: 5 }}>
+                {this.wazaInput("わざ1: ", 0, this.props.pokeData!.waza?.[0])}
+              </View>
+              <View style={{ width: "50%", paddingLeft: 5 }}>
+                {this.wazaInput("わざ2: ", 1, this.props.pokeData!.waza?.[1])}
+              </View>
+            </View>
+            <View style={{ width: "100%", flexDirection: "row" }}>
+              <View style={{ width: "50%", paddingRight: 5 }}>
+                {this.wazaInput("わざ3: ", 2, this.props.pokeData!.waza?.[2])}
+              </View>
+              <View style={{ width: "50%", paddingLeft: 5 }}>
+                {this.wazaInput("わざ4: ", 3, this.props.pokeData!.waza?.[3])}
+              </View>
+            </View>
+            <StatusTable />
+            <View
+              style={{
+                marginTop: 10,
+                backgroundColor: palet.main,
+                height: "100%",
+              }}
+            >
+              <Text style={styles.text}>備考: </Text>
               <TextInput
-                style={styles.abilityInput}
-                placeholder={"いのちのたま"}
-                value={this.props.pokeData?.item}
+                style={[styles.nameInput, { height: 100 }]}
+                defaultValue={this.props.pokeData?.memo}
                 onChangeText={(text) => {
-                  this.pokeData.item = text;
+                  this.pokeData.memo = text;
                   this.props.onChangePokemon(this.pokeData);
                 }}
+                multiline={true}
+                returnKeyType={"default"}
               />
             </View>
-          </View>
-          {/* 技エリア */}
-          <View style={{ width: "100%", flexDirection: "row" }}>
-            <View style={{ width: "50%", paddingRight: 5 }}>
-              {this.wazaInput("わざ1: ", 0, this.props.pokeData!.waza?.[0])}
-            </View>
-            <View style={{ width: "50%", paddingLeft: 5 }}>
-              {this.wazaInput("わざ2: ", 1, this.props.pokeData!.waza?.[1])}
-            </View>
-          </View>
-          <View style={{ width: "100%", flexDirection: "row" }}>
-            <View style={{ width: "50%", paddingRight: 5 }}>
-              {this.wazaInput("わざ3: ", 2, this.props.pokeData!.waza?.[2])}
-            </View>
-            <View style={{ width: "50%", paddingLeft: 5 }}>
-              {this.wazaInput("わざ4: ", 3, this.props.pokeData!.waza?.[3])}
-            </View>
-          </View>
-          <StatusTable />
-          <View
-            style={{ marginTop: 10, backgroundColor: "gray", height: "100%" }}
-          >
-            <Text>備考: </Text>
-            <TextInput
-              style={styles.nameInput}
-              value={this.props.pokeData?.memo}
-              onChangeText={(text) => {
-                this.pokeData.memo = text;
-                this.props.onChangePokemon(this.pokeData);
-              }}
-            />
-          </View>
+          </KeyboardAwareScrollView>
         </ScrollView>
+
         <Banner style={styles.banner} />
       </View>
     );
@@ -168,24 +180,41 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    backgroundColor: palet.back,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  backBoard: {
+    backgroundColor: palet.main,
+  },
+  spaceBottom: {
+    marginBottom: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
+  text: {
+    color: palet.text,
+    fontSize: 14,
   },
   scroll: {
     width: "90%",
     paddingTop: 10,
     flex: 1,
-    marginRight: "auto",
-    marginLeft: "auto",
   },
   nameInput: {
     height: 30,
     width: "100%",
     borderColor: "gray",
     borderWidth: 1,
+    color: palet.text,
+    fontSize: 14,
   },
   abilityInput: {
     height: 30,
     width: "100%",
-    borderColor: "gray",
+    borderColor: palet.main,
+    backgroundColor: palet.main,
+    color: palet.text,
     borderWidth: 1,
   },
   banner: {
