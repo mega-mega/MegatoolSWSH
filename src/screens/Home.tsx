@@ -8,19 +8,17 @@ import AppState from "../states/AppState";
 import PartyChoiceScreen from "./PartyChoiceScreen";
 import PokeListScreen from "./PokeListScreen";
 import SettingScreen from "./SettingScreen";
-import BottomTabBar from "../components/BottomTabBar";
 const Tab = createBottomTabNavigator();
 
 interface Events {}
 
 interface Props extends Events, AppState {}
-export const Home = (props: Props) => {
+export const Home = (props: any) => {
   login();
   return (
     <View style={styles.container}>
       <NavigationContainer>
         <Tab.Navigator
-          tabBar={(props: any) => <BottomTabBar {...props} />}
           screenOptions={({ route }) => ({})}
           tabBarOptions={{
             activeTintColor: "#8C7851",
