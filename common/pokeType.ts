@@ -22,7 +22,7 @@ export interface PokeType {
   updateAt?: Date;
 }
 
-interface states {
+export interface states {
   0: number;
   1: number;
   2: number;

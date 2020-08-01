@@ -43,10 +43,10 @@ export class PokeEditScreen extends React.Component<Props, {}> {
             item: "きあいのタスキ",
             waza: { 0: "", 1: "", 2: "", 3: "" },
             status: {
-              bs: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" },
-              iv: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" },
-              ev: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" },
-              st: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" },
+              bs: { 0: "0", 1: "0", 2: "0", 3: "0", 4: "0", 5: "0" },
+              iv: { 0: "31", 1: "31", 2: "31", 3: "31", 4: "31", 5: "31" },
+              ev: { 0: "0", 1: "0", 2: "0", 3: "0", 4: "0", 5: "0" },
+              st: { 0: "0", 1: "0", 2: "0", 3: "0", 4: "0", 5: "0" },
             },
             memo: "",
             createAt: props.updateAt,
@@ -80,7 +80,7 @@ export class PokeEditScreen extends React.Component<Props, {}> {
         <ScrollView style={styles.scroll}>
           <KeyboardAwareScrollView ref={"scroll"}>
             <View style={[styles.backBoard, styles.spaceBottom]}>
-              <Text style={styles.text}>name: </Text>
+              <Text style={styles.text}>名前: </Text>
               <TextInput
                 style={styles.nameInput}
                 placeholder={"エースバーン"}
@@ -118,7 +118,7 @@ export class PokeEditScreen extends React.Component<Props, {}> {
                 />
               </View>
               <View style={{ width: "50%", paddingLeft: 5 }}>
-                <Text style={styles.text}>持ち物: </Text>
+                <Text style={styles.text}>持物: </Text>
                 <TextInput
                   style={styles.abilityInput}
                   placeholder={"いのちのたま"}
@@ -147,7 +147,10 @@ export class PokeEditScreen extends React.Component<Props, {}> {
                 {this.wazaInput("わざ4: ", 3, this.props.pokeData!.waza?.[3])}
               </View>
             </View>
-            <StatusTable />
+            <StatusTable
+              data={this.props.pokeData}
+              onChangePokemon={this.props.onChangePokemon}
+            />
             <View
               style={{
                 marginTop: 10,
