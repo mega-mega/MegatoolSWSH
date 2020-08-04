@@ -11,12 +11,13 @@ interface Props {
 }
 
 export const StatusTable = (props: Props) => {
-  const [pokeData, setPokeData] = useState(props.data);
-  console.log(props.data);
+  // const [pokeData, setPokeData] = useState(props.data);
+  const pokeData = props.data;
   const elemList = (stateKey: "bs" | "iv" | "ev" | "st") => {
     const list: any[] = [];
-    [0, 1, 2, 3, 4, 5].forEach((habcds) => {
-      list.push(element(stateKey, habcds));
+    const habcds: (0 | 1 | 2 | 3 | 4 | 5)[] = [0, 1, 2, 3, 4, 5];
+    habcds.forEach((key) => {
+      list.push(element(stateKey, key));
     });
     return list;
   };
@@ -43,7 +44,6 @@ export const StatusTable = (props: Props) => {
             numText = 0;
           }
           pokeData.status![stateKey][habcds] = numText;
-          setPokeData(pokeData);
           props.onChangePokemon(pokeData);
         }}
       />

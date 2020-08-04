@@ -75,6 +75,12 @@ export class PokeEditScreen extends React.Component<Props, {}> {
   };
 
   render() {
+    if (this.pokeData) {
+      console.log("hogehgeo");
+      console.log(this.pokeData);
+      console.log("hogeghoehgoehgoe");
+      return <View />;
+    }
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scroll}>

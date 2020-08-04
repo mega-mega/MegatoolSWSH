@@ -262,7 +262,6 @@ const ListView = (
             title: "はい",
             onPress: async () => {
               const uid = await AsyncStorage.getItem("uid");
-              console.log(deletePoke.hash);
               (await db)
                 .collection("userData/" + uid + "/pokeCollection")
                 .doc(deletePoke.hash)
