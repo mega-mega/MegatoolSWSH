@@ -1,18 +1,24 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { Row, Rows, Table } from "react-native-table-component"; // FIXME: エラーけしたい。。
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 import palet from "../../common/palet.json";
-import { PokeType, states } from "../../common/PokeType";
-
-interface Props {
-  data?: PokeType;
+import { PokeType } from "../../common/PokeType";
+import {
+  createUpdatePokeAction,
+  createUpdatePokeListAction,
+} from "../actions/AppAction";
+import State from "../State";
+import AppState from "../states/AppState";
+interface Events {
   onChangePokemon: (pokeData: PokeType) => void;
 }
 
+interface Props extends Events, AppState {}
+
 export const StatusTable = (props: Props) => {
-  // const [pokeData, setPokeData] = useState(props.data);
-  const pokeData = props.data;
   const elemList = (stateKey: "bs" | "iv" | "ev" | "st") => {
     const list: any[] = [];
     const habcds: (0 | 1 | 2 | 3 | 4 | 5)[] = [0, 1, 2, 3, 4, 5];
@@ -30,21 +36,22 @@ export const StatusTable = (props: Props) => {
     stateKey: "bs" | "iv" | "ev" | "st",
     habcds: 0 | 1 | 2 | 3 | 4 | 5
   ) => {
-    if (!pokeData) {
+    if (!props.pokeData) {
       return <Text style={styles.text}>0</Text>;
     }
     return (
       <TextInput
         style={styles.input}
         // tslint:disable-next-line: no-string-literal
-        defaultValue={pokeData.status![stateKey][habcds].toString()}
+        defaultValue={props.pokeData.status![stateKey][habcds].toString()}
         onChangeText={(text) => {
           let numText = Number(text);
           if (!isNaN(numText)) {
             numText = 0;
           }
-          pokeData.status![stateKey][habcds] = numText;
-          props.onChangePokemon(pokeData);
+          const poke = props.pokeData;
+          poke!.status![stateKey][habcds] = numText;
+          props.onChangePokemon(poke!);
         }}
       />
     );
@@ -95,4 +102,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StatusTable;
+const mapStateToProps = (state: State): AppState => {
+  return {
+    pokeData: state.app.pokeData,
+  };
+};
+const mapDispatchToProps = (dispatch: Dispatch): Events => {
+  return {
+    onChangePokemon: (pokeData: PokeType) => {
+      dispatch(createUpdatePokeAction(pokeData));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(StatusTable);
