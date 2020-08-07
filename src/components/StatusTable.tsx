@@ -6,10 +6,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import palet from "../../common/palet.json";
 import { PokeType } from "../../common/PokeType";
-import {
-  createUpdatePokeAction,
-  createUpdatePokeListAction,
-} from "../actions/AppAction";
+import { createUpdatePokeAction } from "../actions/AppAction";
 import State from "../State";
 import AppState from "../states/AppState";
 interface Events {
