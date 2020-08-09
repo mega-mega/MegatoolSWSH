@@ -5,7 +5,7 @@ import { Row, Rows, Table } from "react-native-table-component"; // FIXME: ã‚¨ãƒ
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import palet from "../../common/palet.json";
-import { PokeType } from "../../common/PokeType";
+import { PokeType, states } from "../../common/PokeType";
 import { createUpdatePokeAction } from "../actions/AppAction";
 import State from "../State";
 import AppState from "../states/AppState";
@@ -25,10 +25,6 @@ export const StatusTable = (props: Props) => {
     return list;
   };
 
-  /**
-   * @param defValue
-   * @param setter
-   */
   const element = (
     stateKey: "bs" | "iv" | "ev" | "st",
     habcds: 0 | 1 | 2 | 3 | 4 | 5
@@ -36,18 +32,22 @@ export const StatusTable = (props: Props) => {
     if (!props.pokeData) {
       return <Text style={styles.text}>0</Text>;
     }
+    // console.log(props.pokeData);
     return (
       <TextInput
         style={styles.input}
         // tslint:disable-next-line: no-string-literal
         defaultValue={props.pokeData.status![stateKey][habcds].toString()}
         onChangeText={(text) => {
-          let numText = Number(text);
-          if (!isNaN(numText)) {
-            numText = 0;
+          const numText = Number(text);
+          if (isNaN(numText)) {
+            console.log("nan");
+            text = "0";
           }
           const poke = props.pokeData;
-          poke!.status![stateKey][habcds] = numText;
+
+          poke!.status![stateKey][habcds] = text;
+
           props.onChangePokemon(poke!);
         }}
       />
