@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Button } from "react-native";
 import palet from "../../common/palet.json";
 import { login } from "../repository/FireStore";
 import AppState from "../states/AppState";
@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 interface Events {}
 
 interface Props extends Events, AppState {}
-export const Home = (props: Props) => {
+export const Home = (props: any) => {
   login();
   return (
     <View style={styles.container}>

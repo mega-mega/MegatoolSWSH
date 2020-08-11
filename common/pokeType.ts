@@ -22,11 +22,11 @@ export interface PokeType {
   updateAt?: Date;
 }
 
-interface states {
-  0: number;
-  1: number;
-  2: number;
-  3: number;
-  4: number;
-  5: number;
+export interface states {
+  0: string;
+  1: string;
+  2: string;
+  3: string;
+  4: string;
+  5: string;
 }
