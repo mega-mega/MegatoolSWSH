@@ -79,10 +79,10 @@ export class PokeEditScreen extends React.Component<Props, {}> {
       <View style={styles.container}>
         <ScrollView style={styles.scroll}>
           <KeyboardAwareScrollView ref={"scroll"}>
-            <View style={[styles.backBoard, styles.spaceBottom]}>
+            <View style={[styles.spaceBottom]}>
               <Text style={styles.text}>名前: </Text>
               <TextInput
-                style={styles.nameInput}
+                style={[styles.backBoard, styles.nameInput]}
                 placeholder={"エースバーン"}
                 defaultValue={this.props.pokeData?.name}
                 onChangeText={(text) => {
@@ -92,10 +92,10 @@ export class PokeEditScreen extends React.Component<Props, {}> {
                 autoCorrect={false}
               />
             </View>
-            <View style={[styles.backBoard, styles.spaceBottom]}>
+            <View style={[styles.spaceBottom]}>
               <Text style={styles.text}>ニックネーム: </Text>
               <TextInput
-                style={styles.nameInput}
+                style={[styles.backBoard, styles.nameInput]}
                 placeholder={"NN、型名など"}
                 defaultValue={this.props.pokeData?.nn}
                 onChangeText={(text) => {
@@ -147,20 +147,16 @@ export class PokeEditScreen extends React.Component<Props, {}> {
                 {this.wazaInput("わざ4: ", 3, this.props.pokeData!.waza?.[3])}
               </View>
             </View>
-            <StatusTable
-              data={this.props.pokeData}
-              onChangePokemon={this.props.onChangePokemon}
-            />
+            <StatusTable />
             <View
               style={{
                 marginTop: 10,
-                backgroundColor: palet.main,
                 height: "100%",
               }}
             >
               <Text style={styles.text}>備考: </Text>
               <TextInput
-                style={[styles.nameInput, { height: 100 }]}
+                style={[styles.nameInput, { height: 100 }, styles.backBoard]}
                 defaultValue={this.props.pokeData?.memo}
                 onChangeText={(text) => {
                   this.pokeData.memo = text;

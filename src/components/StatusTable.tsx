@@ -82,7 +82,12 @@ export const StatusTable = (props: Props) => {
 };
 
 const styles = StyleSheet.create({
-  container: { height: 200, width: "100%", marginTop: 10 },
+  container: {
+    height: 200,
+    width: "100%",
+    marginTop: 10,
+    justifyContent: "center",
+  },
   head: { height: 40, backgroundColor: palet.main },
   text: {
     marginRight: "auto",
@@ -94,8 +99,11 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 20,
+    marginRight: "auto",
+    marginLeft: "auto",
     width: "100%",
     color: palet.text,
+    textAlign: "center",
   },
 });
 
