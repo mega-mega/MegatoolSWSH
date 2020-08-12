@@ -24,6 +24,7 @@ export const PartyChoiceScreen = () => {
         rightComponent={
           <TouchableOpacity
             onPress={() => {
+              // TODO: パーティ選択画面に遷移、
               console.log("click");
             }}
           >
