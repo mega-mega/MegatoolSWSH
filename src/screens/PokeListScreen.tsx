@@ -51,9 +51,6 @@ export const PokeListScreen = (props: Props) => {
       if (!(a && b && a.createAt && b.createAt)) return 0;
       const aTime = a.createAt;
       const bTime = b.createAt;
-      // console.log(a);
-      // console.log(JSON.stringify(a));
-      // console.log(JSON.stringify(a.waza));
       if (aTime.getTime() > bTime.getTime()) return -1;
       if (aTime.getTime() < bTime.getTime()) return 1;
       return 0;

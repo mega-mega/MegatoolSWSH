@@ -8,6 +8,7 @@ import AppState from "../states/AppState";
 import PartyChoiceScreen from "./PartyChoiceScreen";
 import PokeListScreen from "./PokeListScreen";
 import SettingScreen from "./SettingScreen";
+import PartyHomeScreen from "./PartyHomeScreen";
 const Tab = createBottomTabNavigator();
 
 interface Events {}
@@ -30,7 +31,7 @@ export const Home = (props: any) => {
             // },
           }}
         >
-          <Tab.Screen name="対戦" component={PartyChoiceScreen} />
+          <Tab.Screen name="対戦" component={PartyHomeScreen} />
           <Tab.Screen name="管理" component={PokeListScreen} />
           <Tab.Screen name="設定" component={SettingScreen} />
         </Tab.Navigator>
