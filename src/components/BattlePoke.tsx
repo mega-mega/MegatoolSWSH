@@ -1,16 +1,22 @@
 import React from "react";
 import { StyleSheet, Image, View, Text, SafeAreaView } from "react-native";
 import palet from "../../common/palet.json";
-// tslint:disable-next-line: no-var-requires
 const ball = require("../../assets/icon.png");
 
 /**
  * パーティ選択で表示される1つ分のポケモンカード
  */
-export const BattlePoke = () => {
+interface Props {
+  isRight?: boolean;
+}
+export const BattlePoke = (props: Props) => {
+  const containerStyle: any[] = [styles.container];
+  if (props.isRight) {
+    containerStyle.push({ marginRight: 5 });
+  }
   return (
-    <View style={styles.container}>
-      <View style={{ height: "40%", flexDirection: "row" }}>
+    <View style={containerStyle}>
+      <View style={styles.imageNameArea}>
         <View style={styles.imageArea}>
           <Image source={ball} style={styles.image} resizeMode={"contain"} />
         </View>
@@ -54,22 +60,40 @@ export const BattlePoke = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: palet.back,
-    margin: 1,
+    backgroundColor: palet.main,
+    marginLeft: 5,
+    marginTop: 5,
     flexDirection: "column",
     position: "relative",
-    padding: 1,
+    borderRadius: 5,
+    padding: 3,
+  },
+  imageNameArea: {
+    height: "40%",
+    flexDirection: "row",
+    shadowColor: palet.back,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+
+    elevation: 7,
+    backgroundColor: palet.main,
+    marginBottom: 2,
   },
   textArea: {
     height: "60%",
     width: "100%",
-    backgroundColor: palet.back,
+
     flexDirection: "column",
-    borderWidth: 1,
   },
   nameStyle: {
     fontSize: 14,
     marginLeft: 5,
+    marginTop: "auto",
+    marginBottom: "auto",
     color: palet.text,
     // fontWeight: "bold",
   },
@@ -77,6 +101,9 @@ const styles = StyleSheet.create({
     width: "50%",
     justifyContent: "center",
     alignItems: "center",
+    borderColor: palet.text,
+    borderBottomWidth: 0.5,
+    marginBottom: 2,
   },
   infoText: {
     width: "50%",
