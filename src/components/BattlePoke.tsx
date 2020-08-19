@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Image, View, Text, SafeAreaView } from "react-native";
 import palet from "../../common/palet.json";
+import { TouchableOpacity } from "react-native-gesture-handler";
 const ball = require("../../assets/icon.png");
 
 /**
@@ -8,6 +9,7 @@ const ball = require("../../assets/icon.png");
  */
 interface Props {
   isRight?: boolean;
+  click?: VoidFunction;
 }
 export const BattlePoke = (props: Props) => {
   const containerStyle: any[] = [styles.container];
@@ -16,43 +18,45 @@ export const BattlePoke = (props: Props) => {
   }
   return (
     <View style={containerStyle}>
-      <View style={styles.imageNameArea}>
-        <View style={styles.imageArea}>
-          <Image source={ball} style={styles.image} resizeMode={"contain"} />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.nameStyle}>ウーラオス(いちげき)</Text>
-          <Text style={styles.nameStyle}>ASようき</Text>
-        </View>
-      </View>
-      <View style={styles.textArea}>
-        <View style={{ height: "33%", flexDirection: "row" }}>
-          <View style={styles.infoArea}>
-            <Text style={styles.infoText}>とくせい</Text>
+      <TouchableOpacity onPress={props.click}>
+        <View style={styles.imageNameArea}>
+          <View style={styles.imageArea}>
+            <Image source={ball} style={styles.image} resizeMode={"contain"} />
           </View>
-          <View style={styles.infoArea}>
-            <Text style={styles.infoText}>もちもの</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.nameStyle}>ウーラオス(いちげき)</Text>
+            <Text style={styles.nameStyle}>ASようき</Text>
           </View>
         </View>
-        {/* わざ1列 */}
-        <View style={{ height: "33%", flexDirection: "row" }}>
-          <View style={styles.infoArea}>
-            <Text style={styles.infoText}>わざ1</Text>
+        <View style={styles.textArea}>
+          <View style={{ height: "33%", flexDirection: "row" }}>
+            <View style={styles.infoArea}>
+              <Text style={styles.infoText}>とくせい</Text>
+            </View>
+            <View style={styles.infoArea}>
+              <Text style={styles.infoText}>もちもの</Text>
+            </View>
           </View>
-          <View style={styles.infoArea}>
-            <Text style={styles.infoText}>わざ2</Text>
+          {/* わざ1列 */}
+          <View style={{ height: "33%", flexDirection: "row" }}>
+            <View style={styles.infoArea}>
+              <Text style={styles.infoText}>わざ1</Text>
+            </View>
+            <View style={styles.infoArea}>
+              <Text style={styles.infoText}>わざ2</Text>
+            </View>
+          </View>
+          {/* わざ2列 */}
+          <View style={{ height: "33%", flexDirection: "row" }}>
+            <View style={styles.infoArea}>
+              <Text style={styles.infoText}>わざ3</Text>
+            </View>
+            <View style={styles.infoArea}>
+              <Text style={styles.infoText}>わざ4</Text>
+            </View>
           </View>
         </View>
-        {/* わざ2列 */}
-        <View style={{ height: "33%", flexDirection: "row" }}>
-          <View style={styles.infoArea}>
-            <Text style={styles.infoText}>わざ3</Text>
-          </View>
-          <View style={styles.infoArea}>
-            <Text style={styles.infoText}>わざ4</Text>
-          </View>
-        </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

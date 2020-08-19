@@ -13,7 +13,14 @@ import PartyTab from "../components/PartyTab";
 import palet from "../../common/palet.json";
 import { Banner } from "../elements/Banner";
 
-export const PartyChoiceScreen = () => {
+/**
+ * 6匹のデータを保持する、
+ * DB更新と
+ * stack navigatorのgoBack抱えた関数を用意して渡す
+ * reduxでバトルボックス保持する
+ */
+interface Props {}
+export const PartyChoiceScreen = (props: Props) => {
   return (
     <View style={styles.container}>
       <Banner />
