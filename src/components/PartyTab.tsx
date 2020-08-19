@@ -36,15 +36,15 @@ const BattleBox = () => {
     <View style={{ flex: 1, borderColor: "#000", borderWidth: 1 }}>
       <View style={styles.boxRow}>
         <BattlePoke />
-        <BattlePoke />
+        <BattlePoke isRight={true} />
       </View>
       <View style={styles.boxRow}>
         <BattlePoke />
-        <BattlePoke />
+        <BattlePoke isRight={true} />
       </View>
       <View style={styles.boxRow}>
         <BattlePoke />
-        <BattlePoke />
+        <BattlePoke isRight={true} />
       </View>
     </View>
   );
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: palet.back,
   },
   boxRow: {
-    height: "33%",
+    height: "35%",
     flexDirection: "row",
   },
   battleMenu: {
