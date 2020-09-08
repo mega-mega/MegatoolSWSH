@@ -110,7 +110,7 @@ export const PokeListScreen = (props: Props) => {
     Toast.show("保存しました", {
       position: Toast.position.BOTTOM,
       textStyle: {
-        color: palet.back,
+        color: palet.text,
       },
       visible: true,
     });

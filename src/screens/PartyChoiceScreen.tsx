@@ -24,10 +24,15 @@ export const PartyChoiceScreen = (props: Props) => {
   return (
     <View style={styles.container}>
       <Banner />
-      <PartyTab />
+      <PartyTab onClick={navigateInfo(props)} />
       <Button title="対戦開始" onPress={() => {}} />
     </View>
   );
+};
+
+const navigateInfo = (navigationProps: any) => {
+  // const { navigation } = navigationProps;
+  // navigation.navigate("詳細画面");
 };
 
 const styles = StyleSheet.create({
