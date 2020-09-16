@@ -3,11 +3,10 @@ import { StyleSheet, Image, View, Text, SafeAreaView } from "react-native";
 import palet from "../../common/palet.json";
 import BattlePoke from "../components/BattlePoke";
 
-/**
- * パーティ選択のタブを生成（ひとまず5個くらい
- * たくさん作る場合は可変長だと見通し悪そう。。
- */
-export const PartyTab = () => {
+interface Props {
+  onClick: any;
+}
+export const PartyTab = (props: Props) => {
   return (
     <View style={styles.container}>
       <BattleInfo />

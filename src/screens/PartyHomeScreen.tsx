@@ -6,7 +6,7 @@ import palet from "../../common/palet.json";
 import PartyChoiceScreen from "./PartyChoiceScreen";
 import PartyEditScreen from "./PartyEditScreen";
 import PartyListScreen from "./PartyListScreen";
-
+import PokeEditScreen from "./PokeEditScreen";
 const Stack = createStackNavigator();
 interface Props {}
 export const PartyHomeScreen = (props: Props) => {
@@ -111,6 +111,23 @@ export const PartyHomeScreen = (props: Props) => {
           },
         }}
         component={PartyEditScreen}
+      />
+      <Stack.Screen
+        name="詳細画面"
+        options={{
+          header: ({ scene, previous, navigation }) => {
+            return (
+              <Header
+                centerComponent={{
+                  text: "ポケモン詳細",
+                  style: { color: palet.text, fontSize: 16 },
+                }}
+                backgroundColor={palet.main}
+              />
+            );
+          },
+        }}
+        component={PokeEditScreen}
       />
     </Stack.Navigator>
   );
